@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="result"></div>
+    <script>    
+        //字符串模板
+        //以前
+        $('#result').append(
+        'There are <b>' + basket.count + '</b> ' +
+        'items in your basket, ' +
+        '<em>' + basket.onSale +
+        '</em> are on sale!'
+        );
+        //es6
+        $('#result').append(`
+            There are <b>${basket.count}</b> items
+            in your basket, <em>${basket.onSale}</em>
+            are on sale!
+        `);
+        
+    </script>
+</body>
+</html>

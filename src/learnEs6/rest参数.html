@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //es5使用aguments对象来捕捉所有的传参
+        function func(a, b){
+            var args = Array.prototype.slice.call(arguments);
+            return (args)
+        }
+        console.log(func(1,2))
+        //rest参数可以更方便获取多余参数
+        //...[3,4] 被解析成3,4
+        let func2 = (...num) =>  num
+        console.log(func2(...[3,4]))
+    </script>
+</body>
+</html>

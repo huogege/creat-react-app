@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //let不允许在相同作用域内，重复声明同一个变量。
+        // 报错
+    function func() {
+    let a = 10;
+    //var a = 1;
+    }
+
+    // 报错
+    function func() {
+    let a = 10;
+    //let a = 1;
+    }
+    //因此，不能在函数内部重新声明参数。
+    function func(arg) {
+        //let arg;
+    }
+    func() // 报错
+
+    function func(arg) {
+        {
+            let arg;
+        }
+    }
+    func() // 不报错
+
+  //不存在变量提升
+  function test() {
+        console.log(a)   //不会报错，只会得到undefined
+        var a = 1
+        //console.log(b)   //报错
+        let b = 2
+    }
+    test()
+    // 只要块级作用域内存在let命令，它所声明的变量就“绑定”（binding）这个区域，不再受外部的影响
+    var tmp = '123'
+    if(true) {
+        tmp = 123
+        //let tmp //报错
+    }
+
+    var a = [];
+    for (var i = 0; i < 10; i++) {
+        a[i] = function () {
+            console.log(i);
+        };
+        console.log(a[i])
+        console.log(i)
+    }
+
+    a[6]();  //10
+
+    var a1 = [];
+    for (let i = 0; i < 10; i++) {
+        a1[i] = function () {
+            console.log(i);
+        };
+        console.log(a1[i])
+        console.log(i)
+    }
+
+    a1[6]();  //6  2次都会循环十次，第一次i是全局变量，循环之后，JavaScript 引擎内部会记住上一轮循环的值所以打印10
+    //但是第二次在for循环中，let声明的变量属于单独的作用域，i只用作循环次数，虽然最后一次i还是10，但是执行a1(6)拿到的是6这个参数值,跟循环的i无关
+
+    for (let i2 = 0; i2 < 3; i2++) {
+        let i2 = 'abc';
+        console.log(i2);
+    }
+    // abc
+    // abc
+    // abc
+    //let定义了2次i2,没有报错，因为i2不在同一个作用域下
+
+    function test1() {
+        let a = 1
+        //let a = 2 // 报错
+        console.log(a)
+        function test3() {
+            let a = 3
+            console.log(a)
+        }
+        test3()
+    }
+    function test2() {
+        let a = 2
+        console.log(a)
+    }
+    test1()
+    test2()
+    //ES6 明确规定，如果区块中存在let和const命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。
+    //总之，在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。
+    function bar(x = y, y = 2) {
+        return [x, y];
+    }
+
+    //bar(); // 报错 x=y是一个死区
+
+    //总之，暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量。
+
+    let avcd = 12
+    avcd = 123
+    console.log(avcd)
+
+    const abcd = 12
+    //abcd = 123
+    console.log(abcd)  //报错
+</script>
+</body>
+</html>

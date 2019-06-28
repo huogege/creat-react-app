@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //一旦设置了参数的默认值，函数进行声明初始化时，参数会形成一个单独的作用域（context）。等到初始化结束，这个作用域就会消失。这种语法行为，在不设置参数默认值时，是不会出现的。
+        var x = 1
+        function f(x, y = x) {
+            console.log(y)
+        }
+        f(2) //2
+        //上面代码中，参数y的默认值等于变量x。调用函数f时，参数形成一个单独的作用域。在这个作用域里面，默认值变量x指向第一个参数x，而不是全局变量x，所以输出是2。
+
+
+        let x1 = 1;
+        function f1(y = x) {
+        let x = 2;
+        console.log(y);
+        }
+
+        f() // 1
+         //上面代码中，函数f调用时，参数y = x形成一个单独的作用域。这个作用域里面，变量x本身没有定义，所以指向外层的全局变量x。函数调用时，函数体内部的局部变量x影响不到默认值变量x。
+
+        //有了es6的块级作用域，(function(){}()) 立即执行函数就没必要了
+
+        {
+            let abc = 123
+            console.log(abc)
+        }
+        {
+            let abc = 234
+            console.log(abc)
+        }
+        // var abc = {
+        //     a = 1
+        // }
+        // console.log(abc)   //报错，花括号是代码块，不能被引用
+        if (true) {let x = 1}  //这里没有花括号也会报错
+
+        var x = 1; 
+        function foo(x, y = function() { x = 2; }) { 
+            var x = 3; 
+            y(); 
+            console.log(x); 
+        } 
+        foo()
+
+
+    </script>
+</body>
+</html>
