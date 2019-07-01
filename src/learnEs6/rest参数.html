@@ -18,6 +18,18 @@
         //...[3,4] 被解析成3,4
         let func2 = (...num) =>  num
         console.log(func2(...[3,4]))
+
+        //替代apply方法给函数传递一个数组
+
+        //es5
+
+        function func3(x, y, c) {
+            console.log(x+y+c)
+        }
+        func3.apply(null, [1, 2, 3])
+
+        //es6
+        func3(...[1, 2, 3])
     </script>
 </body>
 </html>

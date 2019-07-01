@@ -31,6 +31,40 @@
         // xxx '1'  yyy ''123
 
         //对象跟数组类似
+
+
+        //解构的默认值可以是一个表达式求出来的值，但是是惰性求值，如果已经赋值，表达式不会执行
+
+        let [aaa, bbb = function() {
+            return 1
+        }()] = [1, 2]
+        console.log(bbb)   //2
+
+        //嵌套的对象解构赋值
+
+        {
+            let obj = {
+                p:[
+                    'hello',
+                    {y: 'world'}
+                ]
+            }
+            //let {p: [x, {y}]} = obj
+            
+
+            //如果想对p也赋值
+            let {p: p, p: [x, {y}]} = obj
+            console.log(x+y)
+            console.log(p)
+        }
+
+        //方便地获取某个模块的方法
+
+        {
+            let {log} = console
+            console.log(log === console.log)
+        }
+
     </script>
 </body>
 </html>

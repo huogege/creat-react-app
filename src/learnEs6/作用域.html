@@ -50,6 +50,15 @@
         } 
         foo()
 
+        //块级作用域
+
+        var tem = 'abc'
+
+        function f() {
+            console.log(tem)
+            var tem = '123'
+        }
+        f() //undefined,f函数体首先会在当前作用域去寻找tem，拿到了tem之后，由于变量提升，只拿到定义的tem，此时tem还未赋值，所以undefined
 
     </script>
 </body>
