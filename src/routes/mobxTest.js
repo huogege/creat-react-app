@@ -6,6 +6,12 @@ import { Provider, observer, inject } from 'mobx-react';
 
 //useStrict(true);
 
+const map = observable(new Map())
+map.set('a', 1)
+console.log(map.get('a'))
+map.set({a: 1}, 5)
+console.log(map.get({a: 1}))
+console.log(map)
 class MyState {
   @observable num = 0;
   @action addNum = () => {
