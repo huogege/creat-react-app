@@ -4,14 +4,30 @@ import { Link } from 'react-router-dom'
 import { observable, action, autorun, useStrict } from 'mobx';
 import { Provider, observer, inject } from 'mobx-react';
 
-//useStrict(true);
 
-const map = observable(new Map())
-map.set('a', 1)
-console.log(map.get('a'))
-map.set({a: 1}, 5)
-console.log(map.get({a: 1}))
-console.log(map)
+class Store{
+  @observable string = 'abc'
+  @observable number = 123
+  @observable bool = false
+  @observable arr = [1, 2, 3]
+  @observable obj = {
+    aa: 11,
+    bb: 22
+  }
+}
+
+let store = new Store()
+console.log(store)
+
+
+
+
+
+
+
+
+
+
 class MyState {
   @observable num = 0;
   @action addNum = () => {
