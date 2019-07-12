@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*let monthlyCost = 0;
+        let cost = (money) =>  monthlyCost += money
+        console.log(cost(100)) //day1
+        console.log(cost(200))  //day2
+        console.log(cost(300))  //day3*/
+
+
+        let cost = (() => {
+            const args = []
+            return ((...rest) => {
+                let money = 0
+                if(rest.length === 0) {
+                    for(let i=0; i<args.length; i++) {
+                        console.log(i)
+                        money += args[i]
+                    }
+                    return money
+                } else {
+                    args.push(rest[0])
+                    console.log(args)
+                }
+            })
+        })()
+
+        cost(100)
+        cost(200)
+        console.log(cost())
+
+        //上面args因为闭包一直处于内存中
+    </script>
+</body>
+
+</html>

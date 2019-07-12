@@ -2,6 +2,10 @@ import React from 'react'
 import {Button} from 'antd'
 import request from '../utils/ajax'
 import '../styles/page1.less'
+
+import { connect } from 'react-redux'
+
+
 export default class ButtonPage extends React.Component{
     constructor(props) {
         super(props)
@@ -10,6 +14,7 @@ export default class ButtonPage extends React.Component{
         }
     }
     componentDidMount() {
+        
         request('//sunfire.com:8081/getJson').then((response) => {
             console.log(response)
         }, (error) => {

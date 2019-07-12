@@ -6,6 +6,7 @@ import Home from './home'
 import About from './about'
 import MobxTest from './mobxTest'
 import Deractor from './deractor'
+import Counter from './Counter'
 const Routes = () => (
   <HashRouter>
     <div>
@@ -15,6 +16,7 @@ const Routes = () => (
         <Route path="/about" component={About} />
         <Route path="/mobxTest" component={MobxTest} />
         <Route path="/deractor" component={Deractor} />
+        <Route path="/counter" component={Counter} />
       </Switch>
     </div>
   </HashRouter>

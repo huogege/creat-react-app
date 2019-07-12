@@ -1,5 +1,10 @@
 import React from 'react';
 import requet from '../utils/ajax'
+
+const mapStateToProps = (state, ownProps) => {
+    console.log(state) // state
+    console.log(ownProps) // ownProps
+  }
 class Cityname extends React.Component{
     constructor(props) {
         super(props)
@@ -9,6 +14,9 @@ class Cityname extends React.Component{
         }
     }
     componentDidMount() {
+        //从redux的state拿数据
+        const {store} = this.context
+        console.log(store)
         requet('//sunfire.com:8081/getJson').then(
             (res) => {
                 console.log(res)

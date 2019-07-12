@@ -16,5 +16,14 @@ const Home = () => (
     <Toggle/>
   </div>
 )
-
-export default Home
+class Home2 extends React.Component{
+  render() {
+    return (
+      <div>
+         <h2>home2</h2>
+         <List/>
+      </div>
+    )
+  }
+}
+export default Home2
