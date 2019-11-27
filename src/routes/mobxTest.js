@@ -19,15 +19,6 @@ class Store{
 let store = new Store()
 console.log(store)
 
-
-
-
-
-
-
-
-
-
 class MyState {
   @observable num = 0;
   @action addNum = () => {
@@ -37,6 +28,9 @@ class MyState {
 
 const newState = new MyState();
 
+autorun(() => {
+  console.log(newState.num) //自动捕捉变化的参数，并触发autorun
+})
 @observer
 class MobxTest extends React.Component {
   render() {
