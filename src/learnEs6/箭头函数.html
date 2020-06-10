@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
     <script>
         let f = v => v
@@ -21,7 +23,7 @@
             console.log(a)
             return a + b
         }
-        console.log(f3(1,2))
+        console.log(f3(1, 2))
 
         //箭头函数可以与变量解构结合使用
         const full = ({ first, last }) => first + ' ' + last;
@@ -33,66 +35,84 @@
 
         //箭头函数中的this，只会指向函数定义时候的执行环境
 
-    
-        function foo() {
-            this.id = 10   //在函数体内定义的变量，指向的是这个函数所在的执行环境，也就是window, 但是如果使用call函数改变this，那就是那一个对象的this
-            setTimeout(
-                () => {
-                    console.log(this)      
-                    console.log(this.id)
-                    console.log(this.name)
-                }, 100
-            )
+        console.log('......................')
+        let obj_1 = {
+            foo : function() {
+                //this.id = 10   //在函数体内定义的变量，指向的是这个函数所在的执行环境，也就是window, 但是如果使用call函数改变this，那就是那一个对象的this
+                setTimeout(
+                    () => {
+                        console.log(this)
+                        console.log(this.id)
+                        console.log(this.name)
+                    }, 100
+                 )
+
+                // setTimeout(
+                //     function(){
+                //         console.log(this)
+                //         console.log(this.id)
+                //         console.log(this.name)
+                //     }, 100
+                // )
+
+            },
+
+            id: '00001',
+            name: 'obj_1'
         }
+
         var id = 100
-        foo({id:1000})
-            
-       
-       
-        function foo2() {
-            this.id = 20
-            setTimeout(
-                function() {
-                console.log(this)
-                console.log(this.id)
-                console.log(this.name)
-                }, 100
-            )
-        }
-        var id = 200
-        foo2({id:2000})
-    
-        
-        
+        obj_1.foo({ id: 1000 })
+        let obj_1_foo = obj_1.foo;
+        obj_1_foo()
+
+        console.log('......................')
+
+        // function foo2() {
+        //     this.id = 20
+        //     setTimeout(
+        //         function() {
+        //         console.log(this)
+        //         console.log(this.id)
+        //         console.log(this.name)
+        //         }, 100
+        //     )
+        // }
+        // var id = 200
+        // foo2({id:2000})
+
+
+
         //执行 foo({id:1000})  foo2({id:2000}) 都会打印出20，是因为在函数体内部定义的this，指向的是window环境
 
         //下面用call函数改变this指向
 
-        foo.call({id: 300, name: '三百'})
-        foo2.call({id: 400, name: '四百'})
-        var s2 = 10
-        function Timer() {
-            this.s1 = 0
-            this.s2 = 0
-            this.id1 = setInterval(() => {
-                this.s1++
-                console.log(this.s1)
-            },1000)
-            this.id2 = setInterval(function() {
-                console.log(this.s2)
-                this.s2++
-            },1000)
-        }
-        let timer = new Timer()
+        obj_1.foo.call({id: 300, name: '三百'})
+        // foo2.call({id: 400, name: '四百'})
+        // var s2 = 10
+        // function Timer() {
+        //     this.s1 = 0
+        //     this.s2 = 0
+        //     this.id1 = setInterval(() => {
+        //         this.s1++
+        //         console.log(this.s1)
+        //     },1000)
+        //     this.id2 = setInterval(function() {
+        //         console.log(this.s2)
+        //         this.s2++
+        //     },1000)
+        // }
+        // let timer = new Timer()
 
-        setTimeout(() =>{                    //setInterval,setTimeout中的普通函数中的this，永远指向window！               
-            console.log('s1:'+ timer.s1)    //3,箭头函数中的this，始终指向定义时的this，所以即使在setTimeout过后，s1任然是0开始累加
-            clearInterval(timer.id1)
-        }, 3100)
-        setTimeout(() =>{
-            console.log('s2:'+ timer.s2)    //0,普通函数中setTimeout之后，Timer对象中的this,指向全局的this即window，所以累加的是window.s2,timer.s2始终都是0
-        }, 3100)
+        // setTimeout(() =>{                    //setInterval,setTimeout中的普通函数中的this，永远指向window！               
+        //     console.log('s1:'+ timer.s1)    //3,箭头函数中的this，始终指向定义时的this，所以即使在setTimeout过后，s1任然是0开始累加
+        //     clearInterval(timer.id1)
+        // }, 3100)
+        // setTimeout(() =>{
+        //     console.log('s2:'+ timer.s2)    //0,普通函数中setTimeout之后，Timer对象中的this,指向全局的this即window，所以累加的是window.s2,timer.s2始终都是0
+        // }, 3100)
 
     </script>
 </body>
+
 </html>

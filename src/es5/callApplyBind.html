@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const obj1 = {
+            user: 'obj1',
+            fn: function(e){
+                console.log(this.user)
+                if(e) {
+                    console.log(e)
+                }
+               
+            },
+
+            arrowFn: () => {
+                console.log(this.user)
+            }
+        }
+        obj1.fn();  //     obj1，   this的指向又执行的时候决定，这里fn的执行环境是obj1，this指向obj1
+        let a = obj1.fn
+        a()   //  undefined,    这里虽然a==obj1.fn，但是执行环境是在window，所有this指向window
+
+        //call
+
+        let b = obj1.fn
+
+        b.call(obj1, 1)    //  obj1,   1,   第一个参数表明fn执行环境里面this的指向是obj1，第二个参数可以传值
+
+        const obj2 = {
+            user: 'obj2'
+        }
+        b.call(obj2, 2)   //obj2,2
+
+        b.apply(obj2, [3])
+
+        b.bind(obj2, 4)()
+
+
+        
+        //箭头函数
+        console.log('箭头函数。。。。。。。。。。')
+
+        obj1.fn()
+
+
+    </script>
+</body>
+</html>

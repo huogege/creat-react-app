@@ -7,6 +7,17 @@
     <title>Document</title>
 </head>
 <body>
+    <div class="content"></div>
+    <div class="content"></div>
+    <div class="content"></div>
+    <script>
+        window.onload = () => {
+            let arr = document.getElementsByClassName('content');
+            console.log(arr)
+            let nodes = Array.from(arr)
+            console.log(nodes)
+        }
+    </script>
     <script>
         function Person(name, age) {
             this.name = name
@@ -17,14 +28,16 @@
         }
         var p1 = new Person('huohuo', 18)
         p1.sayHi()
-
+        console.log(p1)
+        console.log(Person.prototype)
+        console.log('..................')
 
         //es6
 
         class Person2 {
-            constructor(name, age) {
-                this.name = name
-                this.age = age
+            constructor(...args) {
+                this.name = args[0]
+                this.age = args[1]
             }
             sayHi(value) {
                 console.log(this.name)
@@ -43,6 +56,7 @@
             }
         }
         let p3 = new Person3('huohuo3', 21, 'man')
+        p3.sayHi('40')
     </script>
 </body>
 </html>

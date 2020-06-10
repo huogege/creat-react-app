@@ -38,3 +38,24 @@ export function increaseAction(num)  {
     num
   }
 }
+
+export function fetchAction(data) {
+  return {
+    type: 'fetchData',
+    data
+  }
+}
+
+export function requestGet(params) {
+  return {
+    type: 'requestGetType',
+    params
+  }
+}
+
+export function requestGeted(payload) {
+  return {
+    type: 'requestGetedType',
+    payload
+  }
+}

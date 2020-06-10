@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr = [22,44,55,13,6]
+        function checkNum(num) {
+            console.log(num)
+            console.log(this)
+            if(num > 20) {
+                return num
+            }
+        }
+        console.log(arr.filter(checkNum, arr))
+    </script>
+</body>
+</html>

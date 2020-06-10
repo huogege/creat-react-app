@@ -7,6 +7,7 @@ import About from './about'
 import MobxTest from './mobxTest'
 import Deractor from './deractor'
 import Counter from './Counter'
+import Page2 from './page2'
 const Routes = () => (
   <HashRouter>
     <div>
@@ -17,6 +18,10 @@ const Routes = () => (
         <Route path="/mobxTest" component={MobxTest} />
         <Route path="/deractor" component={Deractor} />
         <Route path="/counter" component={Counter} />
+
+
+        <Route path="/page2" component={Page2} />
+
       </Switch>
     </div>
   </HashRouter>

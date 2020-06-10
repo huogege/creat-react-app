@@ -5,7 +5,8 @@ import App from './routes/index.js';
 import * as serviceWorker from './serviceWorker';
 
 //redux
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import promiseMiddleware from 'redux-promise'; 
 import todoApp from './redux/reducer'
 import { Provider } from 'react-redux'
 
@@ -13,10 +14,14 @@ import {
     addTodo,
     toggleTodo,
     setVisibilityFilter,
-    VisibilityFilters
+    VisibilityFilters,
+
+
+
+    requestGet,
   } from './redux/actions'
 
-let store = createStore(todoApp)
+let store = createStore(todoApp, applyMiddleware(promiseMiddleware))
 
   
 // 打印初始状态
@@ -33,6 +38,11 @@ store.dispatch(addTodo('Learn about store'))
 store.dispatch(toggleTodo(0))
 store.dispatch(toggleTodo(1))
 store.dispatch(setVisibilityFilter(VisibilityFilters.SHOW_COMPLETED))
+
+
+ 
+
+
 
 // 停止监听 state 更新
 unsubscribe()

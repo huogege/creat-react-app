@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //定义一个构造函数，自由属性name，并在原型对象上添加了age属性
+        function Person(name) {
+            this.name = name;
+        }
+        Person.prototype.age = 10;
+
+        //定义一个继承自父类的子类(原型链继承)
+        function Children() {
+
+        }
+        Children.prototype = new Person()
+
+        var p1 = new Children('p1')
+        p1.__proto__.__proto__.age = 1;
+
+        p1.name //undefined   ,这种方式无法向父类传参
+        p1.age // 1 ,可以随意修改父函数原型属性，之后所有实例都被改变
+
+
+        //借用构造函数继承
+        function Children2(name) {
+            Person.call(this, name)
+        }
+
+        var p2 = new Children2('p2')
+        
+        p2.name   //2
+        p2.age   //undefined  call函数相当于执行一次Person(),无法继承prototype属性
+
+        var abc = 'abc def hij';
+
+        abc.split(/\s+/g).forEach((e) => {
+            
+            var str = e.replace(e.slice(0,1), e.slice(0,1).toLocaleUpperCase())
+            console.log(str)
+        })
+
+
+        var json = {
+            "a": 1,
+            "b":2
+        }
+
+    </script>
+</body>
+</html>

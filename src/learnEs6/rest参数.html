@@ -10,6 +10,7 @@
     <script>
         //es5使用aguments对象来捕捉所有的传参
         function func(a, b){
+            console.log(arguments)
             var args = Array.prototype.slice.call(arguments);
             return (args)
         }
@@ -20,9 +21,9 @@
         console.log(func2(...[3,4]))
 
         //替代apply方法给函数传递一个数组
-
+        
         //es5
-
+        
         function func3(x, y, c) {
             console.log(x+y+c)
         }

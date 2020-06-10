@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content {
+            border: 1px solid black;
+            width: 100%;
+            height: 500px;
+            overflow: scroll;
+        }
+
+        .section {
+            width: 100%;
+            height: 5000px;
+            background-color: #fff;
+            opacity: .8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content" >
+        <div class="section"></div>
+    </div>
+    <script>
+        //防抖处理,避免在滑动的时候持续执行事件
+        
+        (function(){
+            let timer = null
+            let content = document.getElementsByClassName('content')[0]
+            let hadnleScroll = function (cb, time) {
+                clearTimeout(timer)
+                timer = setTimeout(() => {
+                    cb()
+                }, time)
+            }
+            function handleSome() {
+                //处理函数
+                console.log('1')
+            }
+            content.addEventListener('scroll', () => {hadnleScroll(handleSome, 2000)}, false)
+
+
+            //闭bao
+
+            function addNumber() {
+                let n = 0
+                return function () {
+                    console.log(n)
+                }
+            }
+
+            let add1 = addNumber()
+            add1()    //0,   本来
+
+        })()
+    </script>
+</body>
+
+</html>

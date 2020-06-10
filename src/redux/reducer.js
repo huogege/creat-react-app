@@ -3,7 +3,9 @@ import {
   ADD_TODO,
   TOGGLE_TODO,
   SET_VISIBILITY_FILTER,
-  VisibilityFilters
+  VisibilityFilters,
+
+
 } from './actions'
 const { SHOW_ALL } = VisibilityFilters
 
@@ -41,21 +43,35 @@ function todos(state = [], action) {
 }
 
 function counter(state = { count: 0 }, action) {
-  console.log(state)
+  
   const count = state.count
   switch (action.type) {
     case 'increase':
       return { count: count + 1 }
     case 'decrease':
-      return { count: count - 1}
+      return { count: count - 1 }
     default:
       return state
+  }
+}
+function fromAjax(state={payload: {}}, action) {
+  switch (action.type) {
+    case 'requestGetType':
+      
+    case 'requestGetedType':
+     
+      return {
+        payload : action.payload
+      }
+
+    default: return state
   }
 }
 const todoApp = combineReducers({
   visibilityFilter,
   todos,
-  counter
+  counter,
+  fromAjax,
 })
 
 export default todoApp
