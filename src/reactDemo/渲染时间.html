@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="../utils/react.development.js"></script>
+    <script crossorigin src="../utils/react-dom.development.js"></script>
+    <script src="../utils/bable.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script type="text/babel">
+        const arr = []
+        for(let i = 0;i<10000;i++) {
+            arr.push(i)
+        }
+        class Welcome extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    name: 'abc',
+                    list: arr,
+                    show: 'none',
+                }
+            }
+            handleClick1() {
+                const startTime =  performance.now()
+                this.setState({list: arr}, () => {
+                    console.log(performance.now() - startTime)
+                })
+            }
+            handleClick2() {
+                const startTime =  performance.now()
+                this.setState({show: 'block'}, () => {
+                    console.log(performance.now() - startTime)
+                })
+            }
+            render() {
+                const { name,list,show } = this.state
+                return (
+                    <div>
+                        <div onClick={() => this.handleClick1()}>button1</div> 
+                        <div onClick={() => this.handleClick2()}>button2</div> 
+                        <div style={{display: show}}>
+                            {list.map((v) => <p key={v}>{v}</p>)}
+                        </div>
+                        
+                    </div>
+                )
+            }
+            componentWillUpdate(nextProps, nextState) {
+                console.log(nextProps)
+            }
+
+        }
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    count: 0
+                }
+            }
+            render() {
+                const { count } = this.state
+                return (
+                    <div>
+                        <h1>app:{}</h1>
+                        <button onClick={() => {
+                            this.setState({
+                                count: count + 1
+                            })
+                        }}>button{count}</button>
+                        <Welcome />
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+
+</html>

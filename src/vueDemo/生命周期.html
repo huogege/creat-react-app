@@ -7,12 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>vue生命周期学习</title>
     <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.4.0/dist/vuex.js"></script>
 </head>
 
 <body>
     <div id="app">
         <h1>{{message + '这是在outer HTML中的'}}</h1>
         <button-counter></button-counter>
+        <p>
+            计算属性：{{num1 + num2}}
+        </p>
+        <input type="text" v-model="input">
     </div>
   
 </body>
@@ -20,7 +25,7 @@
     Vue.component('button-counter', {
         data: function () {
             return {
-                count: 0
+                count: 0,
             }
         },
         template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>',
@@ -32,11 +37,24 @@
         el: '#app',    //这里注释了vm生命周期到created结束，添加vm.$mount('#app')，则会继续执行
         data: {
             message: 'Vue的生命周期',
+            num1: 0,
+            num2: 2,
+            input: '',
         },
         //template: "<h1>{{message +'这是在template中的'}}</h1>",   
         // render: function(createElement) {
         //     return createElement('h1', 'this is createElement')
         // },       //vue 渲染优先级  render > template > 外部html
+        computed:{
+            num3() {
+                return this.num1 + this.num2
+            }
+        },
+        watch:{
+            input(value, oldValue) {
+                console.log(value + '...' + oldValue)
+            }
+        },
         beforeCreate: function () {
             console.group('------beforeCreate创建前状态------');
             console.log("%c%s", "color:red", "el     : " + this.$el); //undefined

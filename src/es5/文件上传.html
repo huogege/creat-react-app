@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" name="file" required accept="txt"  lay-verify="required"  autocomplete="off" id="input" class="layui-input layui-upload">
+    <script>
+        const input = document.getElementById('input')
+        console.log(input)
+        var formData = new FormData(); //新建一个formData对象
+        //formData.append("file", files[0]); //append()方法添加字段
+    </script>
+</body>
+</html>

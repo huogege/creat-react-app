@@ -7,17 +7,16 @@
 </head>
 <body>
     <script>
-        const obj = {
-            a: 1,
-            get name() {
-                return 'name'
-            },
-            set name(e) {
-                console.log('seted name')
-                this.name = 'name2'
+        function checkScope() {
+            let value = 'local scope'
+            function f() {
+                console.log(value)
+                
             }
+           // f()
         }
-        
+
+        let f1 = checkScope()
     </script>
 </body>
 </html>

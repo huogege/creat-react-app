@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue生命周期学习</title>
+    <script src="https://cdn.bootcss.com/vue/2.4.2/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.4.0/dist/vuex.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{message + '这是在outer HTML中的'}}</h1>
+        <button-counter></button-counter>
+        <p>
+            计算属性：{{num1 + num2}}
+        </p>
+        <input type="text" v-model="input">
+
+        <h2>来自store的数据</h2>
+        <p>{{this.$store.state.count}}</p>
+        <p>{{this.$store.getters.count1}}</p>
+        <p>{{this.$store.state.count2}}</p>
+        <p>{{this.$store.state.answer}}</p>
+        <button @click="handleButton">button</button>
+        <button @click="handleButton2">button2</button>
+        <button @click="handleButton3">button3</button>
+    </div>
+    <div id="component2">
+        component2
+    </div>
+</body>
+<script>
+
+    Vue.component('button-counter', {
+        data: function () {               //在子组件中，data必须是一个函数return一个对象，这样data才能保证唯一，不被其他组件污染，根组件则不存在，所以可以是一个对象
+            return {
+                count: 0,
+            }
+        },
+        template: `<button v-on:click="count++">You clicked me {{ count }} times.</button>`,
+        updated() {
+            console.log('button----updated')
+        },
+        render() {
+            return 
+        }
+    })
+    Vue.component('component2', {
+        el:'#component2',
+        data: function () {               //在子组件中，data必须是一个函数return一个对象，这样data才能保证唯一，不被其他组件污染，根组件则不存在，所以可以是一个对象
+            return {
+                count: 0,
+            }
+        },
+        updated() {
+            console.log('button----updated')
+        }
+    })
+    const getData = function () {
+        return new Promise((resolve, reject) => {
+            axios('https://yesno.wtf/api').then((res) => {
+                if (res.status == 200) {
+                    resolve(res.data)
+                } else {
+                    reject(res)
+                }
+            })
+        })
+    }
+    getData().then((res) => {console.log(res)})
+    const store = new Vuex.Store({
+        state: {
+            count: 0,
+            count2: 2,
+            answer: '',
+        },
+        mutations: {
+            increment(state, v) {
+                state.count += 10
+            },
+            increment2(state, v) {
+                state.count2 += v
+            },
+
+            mutationa(state, v) {
+                state.answer = v
+            }
+        },
+        getters: {
+            count1: state => state.count * 2
+        },
+        actions: {
+            incrementAsync({ commit }, v) {
+
+                setTimeout(() => commit('increment2', v), 2000)
+            },
+
+            async actiona({ commit }) {
+                commit('mutationa', await getData())
+                console.log(await getData())
+                console.log('getData done')
+            },
+
+            async actionb ({dispatch,commit}) {
+                await dispatch('actiona')     //加上await ，等待actiona 完成
+                console.log('dispach actiona  done')
+            }
+
+        },
+    })
+
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'Vue的生命周期',
+            num1: 0,
+            num2: 2,
+            input: '',
+        },
+        store,
+        methods: {
+            handleButton() {
+                this.$store.commit('increment', 10)
+            },
+            handleButton2() {
+                this.$store.dispatch('incrementAsync', 15)
+                this.$store.dispatch('actiona', 15)
+            },
+            handleButton3() {
+              
+                this.$store.dispatch('actionb', 15)
+            }
+        }
+    })
+
+</script>
+
+</html>

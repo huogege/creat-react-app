@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // (() => {
+        //     const foo = (function () {
+        //         var v = 0
+        //         console.log(v)
+        //         return () => {
+        //             console.log(v)
+        //             return v++
+        //         }
+        //     }())
+        //     console.log(foo)
+        //     for (let i = 0; i < 10; i++) {
+        //         foo()
+        //     }
+        //     console.log(foo())
+        // })()
+            //   foo立即执行之后 得到一个匿名函数，此时形成了闭包，变量v一直保存在内存中，，在for循环中变量v自增了10次变成10，所以随后打印10
+            (() => {
+                const foo = () => {
+                    var arr = []
+                    var i
+                    for (i = 0; i < 10; i++) {
+                        arr[i] = function () {
+                            console.log(i)
+                        }
+                        console.log(arr)
+                    }
+
+                    return arr[0]
+                }
+
+                foo()()
+            })()
+            //结论同上
+    </script>
+</body>
+
+</html>

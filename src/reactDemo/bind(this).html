@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="../utils/react.development.js"></script>
+    <script crossorigin src="../utils/react-dom.development.js"></script>
+    <script src="../utils/bable.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script type="text/babel">
+        class Welcome extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    name: 'abc'
+                }
+                //this.handleClick = this.handleClick.bind(this)
+            }
+            handleClick() {
+                console.log(this)
+            }
+            render() {
+                const { name } = this.state
+                //3中方式实现
+                return (
+                    <div>
+                        <div onClick={() => this.handleClick()}>welcome</div> 
+                        <div onClick={this.handleClick.bind(this)}>welcome</div>
+                    </div>
+                )
+            }
+            componentWillUpdate(nextProps, nextState) {
+                console.log(nextProps)
+            }
+
+        }
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    count: 0
+                }
+            }
+            render() {
+                const { count } = this.state
+                return (
+                    <div>
+                        <h1>app:{}</h1>
+                        <button onClick={() => {
+                            this.setState({
+                                count: count + 1
+                            })
+                        }}>button{count}</button>
+                        <Welcome />
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <App />,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+
+</html>

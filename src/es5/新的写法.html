@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+    <script type="text/babel">
+        let a = ''   //undifined  null  ''
+        let b = !a
+
+        //这种方便判断a的值，不用去写a ！=‘’ && a！= undefined
+
+        let arr = []
+        let isArrEmpty = !arr.length
+        console.log(isArrEmpty)   //true   这样可以判断一个数组是否为空
+
+        //合起来用，jsx
+
+        const list = ({ list }) => {
+            const isNull = !list
+            const isEmpty = !isNull && !list.length
+
+            
+
+        }
+           
+    </script>
+</body>
+
+</html>
