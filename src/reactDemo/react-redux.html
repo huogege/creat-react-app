@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="../utils/react.development.js"></script>
+    <script crossorigin src="../utils/react-dom.development.js"></script>
+    <script src="../utils/bable.js"></script>
+    <script src="../utils/redux.js"></script>
+    <script src="../utils/react-redux.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+    </div>
+    <script type="text/babel">
+
+        const { Provider, connect, } = ReactRedux
+        const { createStore } = Redux
+        const reducer = (state = { counter: 1 }, action) => {
+            const { type } = action
+            switch (type) {
+                case 'increase':
+                    return {...state, counter:state.counter+1, name: action.payload}
+                default: return state
+            }
+
+        }
+        const store = createStore(reducer)
+        store.subscribe(() =>
+            console.log(store.getState())
+        );
+        
+
+        const mapStateToProps = (state /*, ownProps*/) => {
+            return {
+                counter: state.counter,
+                name: state.name,
+            }
+        }
+
+        const mapDispatchToProps = (dispatch, ownProps) => {
+            return {
+                increase: (...args) => dispatch({type: 'increase', payload:'ownProps'}),
+            }
+        }
+
+
+        class Counter extends React.Component {
+            constructor(props) {
+                super(props)
+            }
+            render() {
+                const { counter, name, increase } = this.props
+                return (
+                    <div>
+                        <p>{counter}</p>
+                        <p>{name}</p>
+                        <button onClick={() => increase()}>increase</button>
+
+                    </div>
+                )
+            }
+            componentWillUpdate(nextProps, nextState) {
+                console.log(nextProps)
+            }
+
+        }
+
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    count: 0
+                }
+            }
+            render() {
+                const { count } = this.state
+                return (
+                    <div>
+                        <Counter />
+                    </div>
+                )
+            }
+        }
+
+        App = connect(
+            mapStateToProps,
+            mapDispatchToProps
+        )(Counter)
+
+        ReactDOM.render(
+            <Provider store={store}>
+                <App />
+            </Provider>,
+            document.getElementById('app')
+        );
+    </script>
+</body>
+
+</html>

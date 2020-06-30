@@ -1,0 +1,355 @@
+import { Form, Input, Modal, Select, DatePicker, Row, Col, Checkbox, Switch, Radio, Upload, message, Button, Tag, Icon, Spin } from 'antd';
+import { CloseOutlined, CheckOutlined, UploadOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+import request from '@/utils/request';
+
+const { Option } = Select;
+const { TextArea } = Input;
+const { RangePicker } = DatePicker;
+const CreateForm = props => {
+  const { modalVisible, form, formVals, onSubmit: handleAdd, onCancel, taskState, $nextTick } = props;
+  const [rangePickerNum, handleRangePickerNum] = useState(1)
+  const [fileName, setFileName] = useState();
+  const [loading1, setLoading1] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
+  const [loading4, setLoading4] = useState(false);
+
+  const [disabled1, setDisaled1] = useState(false);
+  const [disabled2, setDisaled2] = useState(false);
+  const [disabled3, setDisaled3] = useState(false);
+  const [disabled4, setDisaled4] = useState(false);
+
+
+  const [addShow, setAddShow] = useState(false)
+  const [spinning, setSpinning] = useState(false)
+
+  //timepicker initialValue disbled
+
+  const [timePickerInital, setTimePickerInital] = useState(false)
+
+  const okHandle = () => {
+
+    form.validateFields((err, fieldsValue) => {
+      console.log(fieldsValue)
+      if (err) return;
+      const { timePickerNums, timePickers } = fieldsValue;
+      const GroupSendTaskTimeV = formVals.sendStrategy == 2 ? timePickerNums.map(key => {
+        return {
+          startTime: moment(timePickers[key][0]).format('YYYY-MM-DD HH:mm:ss'),
+          endTime: moment(timePickers[key][1]).format('YYYY-MM-DD HH:mm:ss'),
+        }
+      }) : null;
+      console.log('Merged values:', GroupSendTaskTimeV);
+      const createTime = moment(formVals.createTime).format('YYYY-MM-DD HH:mm:ss');
+      delete (fieldsValue.timePickers);
+      delete (fieldsValue.timePickerNums);
+      taskState == 0 ? fieldsValue.taskState = 1 : null;
+      //delete (fieldsValue.filePath);
+      //fieldsValue.file = fieldsValue.file.fileList[0];
+      fieldsValue.filePath = 'www.baidu.com'
+      GroupSendTaskTimeV ? handleAdd({ ...fieldsValue, GroupSendTaskTimeV, createTime }) : handleAdd({ ...fieldsValue, createTime });
+    });
+  };
+
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 9 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 15 },
+    },
+  };
+  const formItemLayoutWithOutLabel = {
+    wrapperCol: {
+      xs: { span: 24, offset: 0 },
+      sm: { span: 15, offset: 9 },
+    },
+  };
+
+  const beforeUploadHandle = file => {
+    setFileName(file);
+    return false;
+  };
+  function randomn(n) {
+    if (n > 21) return null
+    return parseInt((Math.random() + 1) * Math.pow(10, n - 1))
+  }
+  const taskNo = moment().locale('zh-cn').format('YYYYMMDDHHmmss') + randomn(6)
+  const remove = k => {
+    const timePickerNums = form.getFieldValue('timePickerNums');
+    if (timePickerNums.length === 1) {
+      return;
+    }
+    form.setFieldsValue({
+      timePickerNums: timePickerNums.filter(key => key !== k),
+    });
+  };
+  const add = () => {
+    setTimePickerInital(false)
+    const timePickerNums = form.getFieldValue('timePickerNums');
+    handleRangePickerNum(rangePickerNum + 1)
+    console.log(rangePickerNum)
+    const nextKeys = timePickerNums.concat(rangePickerNum);
+    form.setFieldsValue({
+      timePickerNums: nextKeys,
+    });
+  };
+  const updateprops = {
+    name: 'file',
+    accept: ".txt",
+    action: '/api/smsMassWorkOrder/upLoadFile',
+    onChange(info) {
+      if (info.file.status == 'uploading') {
+        setSpinning(true)
+        setDisaled1(true)
+      }
+      if (info.file.status === 'done') {
+        setSpinning(false)
+        setDisaled1(false)
+        if (info.file.response.data) {
+          message.success(info.file.response.data)
+        }
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name}上传失败.`);
+      }
+    },
+
+  };
+  const handleState = (value) => {
+
+  }
+  useEffect(() => {
+    if (formVals.taskState && formVals.taskState != 0) {
+      //修改的适合设置时间框有初始值
+      setTimePickerInital(true)
+      const { groupSendTaskTimeVo } = formVals
+      if (groupSendTaskTimeVo) {
+        const length = groupSendTaskTimeVo.length
+        let nextKeys = []
+        let timePickers = []
+        if (length > 0) {
+          for (let i = 0; i < length; i++) {
+            nextKeys = nextKeys.concat(i + 1)
+            timePickers[i] = [
+             moment(groupSendTaskTimeVo[i]['startTime']),
+             moment(groupSendTaskTimeVo[i]['endTime']),
+            ]
+          }
+          console.log(timePickers)
+          setTimeout(()=> {
+            form.setFieldsValue({
+              timePickerNums: nextKeys,
+              timePickers: [[1,2],[3,4]]
+            });
+            
+          }, 0)
+          
+        }
+      }
+    }
+  },[])
+  form.getFieldDecorator('timePickerNums', { initialValue: [0] });
+  const timePickerNums = form.getFieldValue('timePickerNums');
+  const timePickers = form.getFieldValue('timePickers');
+  console.log(form.getFieldValue('timePickers'))
+  console.log(timePickerNums)
+  return (
+    <Modal
+      destroyOnClose
+      visible={modalVisible}
+      title="短信群发"
+      width={1150}
+      onCancel={onCancel}
+      footer={[
+        (taskState == 0 || taskState == 3) && <Button key="submit" type="primary" loading={loading1} disabled={disabled1} onClick={okHandle} >保存</Button>,
+        (taskState == 4 || taskState == 6) && <Button key="2" type="primary" key="back" disabled={disabled2} loading={loading2} onClick={() => { handleState(1) }}>群发暂停</Button>,
+        taskState == 7 && <Button key="3" type="primary" disabled={disabled3} loading={loading3} onClick={() => { handleState(2) }}>群发恢复</Button>,
+        (taskState == 4 || taskState == 6 || taskState == 7) && <Button key="" type="primary" disabled={disabled4} loading={loading4} onClick={() => { handleState(3) }}>群发终止</Button>,
+        <Button key="4" type="" onClick={onCancel}>返回</Button>,
+      ]}
+    >
+      <Spin spinning={spinning} tip='正在上传'>
+        <Form {...formItemLayout} layout="vertical">
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item label="申请单单号">
+                {form.getFieldDecorator('taskNo', {
+                  initialValue: taskState == 0 ? taskNo : formVals.taskNo,
+                  rules: [
+                    {
+                      required: true,
+                    },
+                  ],
+                })(<Input disabled />)}
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="群发主题">
+                {form.getFieldDecorator('taskName', {
+                  initialValue: formVals.taskName,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入群发主题'
+                    },
+                  ],
+                })(<Input disabled={taskState != 3 && taskState != 0} length={64} />
+                )}
+
+              </Form.Item>
+
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item label="申请人">
+                {form.getFieldDecorator('createWorker', {
+                  initialValue: taskState == 0 ? taskNo : formVals.createWorker,
+                  rules: [
+                    {
+                      required: false,
+                    },
+                  ],
+                })(<Input disabled />
+                )}
+
+              </Form.Item>
+
+            </Col>
+            <Col span={12}>
+              <Form.Item label="主叫号码">
+                {form.getFieldDecorator('callingNbr', {
+
+                  initialValue: taskState == 0 ? '10001' : formVals.callingNbr,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入主叫号码'
+                    },
+                  ],
+                })(<Input disabled={taskState != 3 && taskState != 0} />
+                )}
+
+              </Form.Item>
+
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item label="上传接收人信息">
+                {form.getFieldDecorator('file', {
+                  //initialValue: formVals.file,
+                  rules: [
+                    {
+                      required: false,
+                    },
+                  ],
+                })(<Upload  {...updateprops} disabled={taskState != 3 && taskState != 0}>
+                  <Button disabled={taskState != 3 && taskState != 0}>
+                    <UploadOutlined /> 浏览文件
+                </Button>
+                  {taskState == 3 || taskState == 0 ? <Tag style={{ marginTop: '5px' }} color="#f50">注：文件以.txt结尾，且每一行一个客户号码</Tag> : null}
+                </Upload>
+                )}
+              </Form.Item>
+            </Col>
+            {taskState != 0 ? <Col span={12} >
+              <Form.Item label="接收人信息">
+                <span>{formVals.filePath}</span>
+                <Button type="primary" style={{ marginLeft: '5px' }}>下载</Button>
+              </Form.Item>
+            </Col> : null}
+            <Col span={12}>
+              <Form.Item label="申请时间">
+                {form.getFieldDecorator('createTime', {
+                  initialValue: taskState != 0 ? moment(formVals.createTime) : null,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请选择申请时间'
+                    },
+                  ],
+                })(<DatePicker showTime disabled={taskState != 0 && taskState != 3} />
+                )}
+              </Form.Item>
+
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item label="发送策略">
+                {form.getFieldDecorator('sendStrategy', {
+                  initialValue: formVals.sendStrategy,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请选择发送策略'
+                    },
+                  ],
+                })(<Radio.Group disabled={taskState != 0 && taskState != 3} onChange={value => {
+                  formVals.sendStrategy = value.target.value
+                }}>
+                  <Radio value={1}>及时发送</Radio>
+                  <Radio value={2}>定时发送</Radio>
+                </Radio.Group>
+                )}
+              </Form.Item>
+
+            </Col>
+
+          </Row>
+
+          <Row gutter={24}>
+            {
+              formVals.sendStrategy == 2 ?
+                <Col span={12}>
+                  {timePickerNums.map((k, index) =>
+
+                    <Form.Item
+                      label={index === 0 ? '发送时段' : ''}
+                      {...(index === 0 ? {} : formItemLayoutWithOutLabel)}
+                      key={k}
+                    >
+                      {form.getFieldDecorator(`timePickers[${k}]`, {
+                        initialValue:   timePickerInital && timePickers && timePickers[index]&&timePickers[index].length > 0 ? [moment(timePickers[index][0]), moment(timePickers[index][1])] : null,
+                        rules: [{ type: 'array', required: true, message: '请选择发送时段' }],
+                      })(<RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />)}
+                      {taskState == 3 && <Button type="primary" style={{ position: 'absolute', left: '372px', top: '-7px' }} onClick={() => remove(k)}>修改时间</Button>}
+                      {(taskState == 0 || setAddShow) && <Button type="primary" style={{ position: 'absolute', left: '372px', top: '-7px' }} onClick={() => remove(k)}>删除</Button>}
+                    </Form.Item>)}
+                  {(taskState == 0 || setAddShow) && <Button type="primary" style={{ position: 'absolute', left: '660px', top: '0' }} onClick={add}>增加定时时段</Button>}
+                </Col> : null
+            }
+          </Row>
+          <Row gutter={24}>
+            <Col span={12}>
+              <Form.Item label="短信内容">
+                {form.getFieldDecorator('smsContent', {
+                  initialValue: formVals.smsContent,
+                  rules: [
+                    {
+                      required: true,
+                      message: '请输入短信内容'
+
+                    },
+                  ],
+                })(<div>
+                  <TextArea maxLength={250} rows={5} disabled={taskState != 0 && taskState != 3} />
+                  {taskState == 3 || taskState == 0 ? <Tag color="#f50">最多输入250个汉子</Tag> : null}
+                </div>
+
+                )}
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Spin>
+    </Modal>
+  );
+};
+
+export default Form.create()(CreateForm);
