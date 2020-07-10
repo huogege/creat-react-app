@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var memoize = function (f) {
+            var cache = {};
+            console.log('...')
+            return function () {
+                var arg_str = JSON.stringify(arguments);
+                console.log(arg_str)
+                console.log(cache)
+                cache[arg_str] = cache[arg_str] || f.apply(f, arguments);
+                console.log(cache[arg_str])
+                return cache[arg_str];
+            };
+        };
+        var squareNumber = memoize((x) => x*x)
+        let a = squareNumber(2)
+        let a2 = squareNumber(2)
+        let b = squareNumber(3)
+        let b2 = squareNumber(3)
+
+        //cache 因为闭包被保存起来
+    </script>
+</body>
+
+</html>

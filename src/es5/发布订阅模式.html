@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let publisher = {
+            list: {}  //存放订阅者的回调函数
+        }   //定义一个发布者
+
+        publisher.listen = function(key, fn) {   //订阅消息缓存到发布列表
+            /*这里如果只有一个回调函数，就会分不清楚订阅者订阅的哪一条消息
+            *所以给list加一个key区分身份
+            */
+            if(!publisher.list[key]) {
+                publisher.list[key] = []
+            }
+            publisher.list[key].push(fn)
+        }
+
+        publisher.trigger = function() {
+            const key = Array.from(arguments)[0]
+            const length = publisher.list[key].length
+            for(let i=0;i<length;i++) {
+                //publisher.list[i].apply(this, arguments)    //2种写法等价
+                publisher.list[key][i].call(this, ...Array.from(arguments))
+            }
+        }
+        //订阅者1
+        publisher.listen('first',function(name,age) {
+            console.log('my name is '+ name + ',' + age)
+        })
+        //订阅者2
+        publisher.listen('second',function(name,age) {
+            console.log('再次打印---my name is '+ name + ',' + age)
+        })
+
+        //，发布者发布消息
+        publisher.trigger('first', 'xiaohong',10)   //
+        publisher.trigger('second', 'xiaohong2',100)   //
+    </script>
+    <script>
+        //封装发布者 
+
+        function createPublisher() {
+
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*实现一个bind
+        */
+        function getArgs() {
+            context = [].shift.call(arguments)
+            console.log(context)
+            return arguments
+        }
+        let a1 = getArgs('a', 'b')
+        console.log(a1)
+        let a2 = Array.prototype.shift.call([0, 1])
+        console.log(a2)
+
+        let obj = {
+            a: 1,
+            fn: function () {
+                console.log(this.a) //obj
+            },
+            fn2: () => {
+                console.log(this)   //window
+            }
+        }
+        obj.fn.call({ a: 2 })
+
+        let bind = function (fn, ctx) {
+            console.log(fn)
+            console.log(ctx)
+            function boundFn(a) {
+                console.log(a)
+                var l = arguments.length;
+                console.log(l)
+                return l ? l > 1 ? fn.apply(ctx, arguments) : fn.call(ctx, a) : fn.call(ctx)
+                
+            }
+            // record original fn length
+            boundFn._length = fn.length;
+            return boundFn
+        }
+        bind(obj.fn,{a:3})(4)
+    </script>
+</body>
+
+</html>

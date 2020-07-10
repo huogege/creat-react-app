@@ -182,14 +182,11 @@ var hyphenate = cached(function (str) {
 function bind (fn, ctx) {
   function boundFn (a) {
     var l = arguments.length;
-    return l
-      ? l > 1
-        ? fn.apply(ctx, arguments)
-        : fn.call(ctx, a)
-      : fn.call(ctx)
+    return l ? l > 1 ? fn.apply(ctx, arguments) : fn.call(ctx, a) : fn.call(ctx)
   }
   // record original fn length
   boundFn._length = fn.length;
+  
   return boundFn
 }
 
@@ -631,6 +628,7 @@ var devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
 
 /* istanbul ignore next */
 function isNative (Ctor) {
+console.log()
   return typeof Ctor === 'function' && /native code/.test(Ctor.toString())
 }
 
@@ -886,6 +884,7 @@ Observer.prototype.walk = function walk (obj) {
   var keys = Object.keys(obj);
   for (var i = 0; i < keys.length; i++) {
     defineReactive$$1(obj, keys[i], obj[keys[i]]);
+    console.log(keys[i])
   }
 };
 
@@ -960,7 +959,6 @@ function defineReactive$$1 (
   shallow
 ) {
   var dep = new Dep();
-
   var property = Object.getOwnPropertyDescriptor(obj, key);
   if (property && property.configurable === false) {
     return
@@ -2832,6 +2830,7 @@ var Watcher = function Watcher (
   cb,
   options
 ) {
+  console.log('watcher has created ')
   this.vm = vm;
   vm._watchers.push(this);
   // options
@@ -2876,11 +2875,15 @@ var Watcher = function Watcher (
  * Evaluate the getter, and re-collect dependencies.
  */
 Watcher.prototype.get = function get () {
+  console.log('watcher geted')
   pushTarget(this);
   var value;
   var vm = this.vm;
   try {
     value = this.getter.call(vm, vm);
+    console.log(vm)
+    console.log(this.getter)
+    console.log(value)
   } catch (e) {
     if (this.user) {
       handleError(e, vm, ("getter for watcher \"" + (this.expression) + "\""));
@@ -7861,21 +7864,14 @@ setTimeout(function () {
     if (devtools) {
       devtools.emit('init', Vue$3);
     } else if ("development" !== 'production' && isChrome) {
-      console[console.info ? 'info' : 'log'](
-        'Download the Vue Devtools extension for a better development experience:\n' +
-        'https://github.com/vuejs/vue-devtools'
-      );
+     
     }
   }
   if ("development" !== 'production' &&
     config.productionTip !== false &&
     inBrowser && typeof console !== 'undefined'
   ) {
-    console[console.info ? 'info' : 'log'](
-      "You are running Vue in development mode.\n" +
-      "Make sure to turn on production mode when deploying for production.\n" +
-      "See more tips at https://vuejs.org/guide/deployment.html"
-    );
+     
   }
 }, 0);
 
