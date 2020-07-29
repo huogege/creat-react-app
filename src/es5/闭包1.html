@@ -9,39 +9,195 @@
 
 <body>
     <script>
-        // (() => {
-        //     const foo = (function () {
-        //         var v = 0
-        //         console.log(v)
-        //         return () => {
-        //             console.log(v)
-        //             return v++
-        //         }
-        //     }())
-        //     console.log(foo)
-        //     for (let i = 0; i < 10; i++) {
-        //         foo()
-        //     }
-        //     console.log(foo())
-        // })()
-            //   foo立即执行之后 得到一个匿名函数，此时形成了闭包，变量v一直保存在内存中，，在for循环中变量v自增了10次变成10，所以随后打印10
-            (() => {
-                const foo = () => {
-                    var arr = []
-                    var i
-                    for (i = 0; i < 10; i++) {
-                        arr[i] = function () {
-                            console.log(i)
-                        }
-                        console.log(arr)
+        /*(() => {
+            const foo = (function () {
+                var v = 0
+                console.log(v)
+                return () => {
+                    console.log(v)
+                    return v++
+                }
+            }())
+            console.log(foo)
+            for (let i = 0; i < 10; i++) {
+                foo()
+            }
+            console.log(foo())
+        })()*/
+        //   foo立即执行之后 得到一个匿名函数，此时形成了闭包，变量v一直保存在内存中，，在for循环中变量v自增了10次变成10，所以随后打印10
+        /*(() => {
+            const foo = () => {
+                var arr = []
+                var i
+                for (i = 0; i < 10; i++) {
+                    arr[i] = function () {
+                        console.log(i)
                     }
-
-                    return arr[0]
+                    console.log(arr)
                 }
 
-                foo()()
-            })()
-            //结论同上
+                return arr[0]
+            }
+
+            foo()()
+        })()*/
+        //结论同上
+
+
+
+
+
+
+
+        /**闭包是一种特殊的对象。
+
+        它由两部分组成。执行上下文(代号A)，以及在该执行上下文中创建的函数（代号B）。
+
+        当B执行时，如果访问了A中变量对象中的值，那么闭包就会产生。
+
+        在大多数理解中，包括许多著名的书籍，文章里都以函数B的名字代指这里生成的闭包。而在chrome中，则以执行上下文A的函数名代指闭包。
+        **/
+
+        /*let fn = undefined
+        function foo() {
+            let a = 10
+            function innerFn() {
+                a++
+                console.log(a)
+            }
+            fn = innerFn
+            // return innerFn  这里要符合闭包条件，则必须执行函数innerFn，只有赋值或者return到外部环境，才能在外部环境访问
+            //innerFn()  //不一定要在外部执行，在内部执行也会形成闭包，这样写外部环境不能访问到闭包里的变量,所以没有意义
+        }
+        foo();   //!!!!!!!!!这里不加分号会报错，在2哥括号之间需要加分号
+        fn()  //11
+        fn()  //12
+        fn()*/  //13    垃圾回收本应该在foo执行完之后，将foo里面所有变量对象回收，a 和innerfn，但是inderfn被全局引用，a被innerfn引用，所有一直被内存缓存
+
+
+
+
+        // 只要内部函数不访问上层作用域，也就不会形成闭包
+        /*var fn;
+        var m = 20;
+        function foo() {
+            var a = 2;
+            function baz(a) {
+                console.log(a);
+            }
+            fn = baz;
+        }
+        function bar() {
+            fn(m);
+        }
+
+        foo();
+        bar();*/ // 20
+
+
+
+
+        // demo03, 这里会形成了2个闭包，foo， bar，他们各自的作用域都有被嵌套函数访问的变量
+        /*function foo() {
+            var a = 2;
+
+            return function bar() {
+                var b = 9;
+
+                return function fn() {
+                    console.log(a);
+                    console.log(b)
+                }
+            }
+        }
+        var bar = foo();
+        var fn = bar();
+        fn();*/
+
+
+
+
+
+        //必须包在一个函数中，如果访问变量在全局，则不会形成闭包
+        /*(() => {
+         var aaaa = 10
+         window.fn  = function(fn) {
+             fn()
+         }
+         for(var i =0;i<5;i++) {
+             fn(function() {
+                 console.log(aaaa)
+             })
+         }
+ 
+        })()*/
+
+
+
+
+
+        /*for (var i = 1; i <= 5; i++) {
+            function timer(i) {
+                setTimeout(function timer () {
+                    console.log(i);
+                    console.log(this)
+                    console.log(timer)
+                }, i * 1000);
+            }
+            timer(i)
+        }*/
+
+
+
+
+
+
+
+        //立即执行函数和闭包结合，暴露一个公共方法，访问私有变量
+        /* (function () {
+             var a = 10;
+             var b = 20;
+
+             function add(num1, num2) {
+                 var num1 = !!num1 ? num1 : a;
+                 var num2 = !!num2 ? num2 : b;
+
+                 return num1 + num2;
+             }
+
+             window.add = add;
+         })();
+
+         console.log(add());*/
+
+
+        let arr1 = [1, 2]
+        let arr2 = ['a', 'b']
+
+        function scriptArray(fn) {
+            let ActivityTargetInfoVo = [];
+            let arrs = Array.from(arguments);
+            var COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+            var code = fn.toString().replace(COMMENTS, '');
+            var result = code.slice(code.indexOf('(') + 1, code.indexOf(')')).match(/([^\s,]+)/g);
+            console.log(result)
+            console.log(arguments)
+            arrs.forEach((item, i) => {
+                console.log(arrs)
+                item.forEach((iitem, j) => {
+                    if (!ActivityTargetInfoVo[j]) {
+                        ActivityTargetInfoVo[j] = {}
+                    }
+                    if (i == 0) {
+                        ActivityTargetInfoVo[j].age = iitem
+                    } if (i == 1) {
+                        ActivityTargetInfoVo[j].name = iitem
+                    }
+                })
+            })
+            return ActivityTargetInfoVo
+        }
+        console.log(scriptArray(arr1, arr2))
     </script>
 </body>
 

@@ -1,4 +1,4 @@
-var getJSON = function(url) {
+export const getJSON = function(url) {
     const promise = new Promise(function(resolve, reject){
       const handler = function() {
         if (this.readyState !== 4) {
@@ -22,3 +22,6 @@ var getJSON = function(url) {
     return promise;
 }
 
+export const fn = () => {
+    console.log(1)
+}

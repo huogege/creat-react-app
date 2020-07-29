@@ -5,7 +5,8 @@ import Clock from '../components/clock'
 import Cityname from '../components/cityname'
 import List from '../components/list'
 import Toggle from '../components/toggle'
-import requet from '../utils/ajax'
+import {getJSON, fn} from '../utils/ajax2'
+fn()
 const scroll_content = {
   height: '20rem',
   backgroundColor: '#ccc',
@@ -26,7 +27,7 @@ class Home2 extends React.Component {
     //从redux的state拿数据
     const { store } = this.context
     console.log(store)
-    requet('//localhost:8082/getJson').then(
+    getJSON('//localhost:8082/getJson').then(
       (res) => {
         console.log(res)
 

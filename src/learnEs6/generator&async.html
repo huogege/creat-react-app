@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="module" src="../utils/fetch.js"  ></script>
+    <script  src="../utils/ajax.js" ></script>
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function* generatorHelloWorld() {
+            yield 'hello'
+            yield 'world'
+            return 'ending'
+            console.log(2)
+        }
+        const hw = generatorHelloWorld()
+        console.log(hw.next())
+        console.log(hw.next())
+        console.log(hw.next())
+
+        function* fetchData() {
+            const answer = yield getJSON('https://yesno.wtf/api')
+        }
+       console.log(fetchData().next().value.then(res => console.log(res)))
+        async function fetchData2() {
+            const answer =  fetch('https://yesno.wtf/api')
+            console.log(answer.then(res => console.log(res.json())))
+        }
+        fetchData2()
+        async function fetchData3() {
+            const answer = await getJSON('https://yesno.wtf/api')
+            console.log(answer)
+        }
+        fetchData3()
+    </script>
+</body> 
+</html>

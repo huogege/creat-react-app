@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //this的指向是在函数执行的时候，创建执行上下文确定的
+        //单独调用的函数，this指向全局，在某个对象调用，则指向那个对象
+        (() => {
+            a = 100 + 'global'
+            function foo() {
+                console.log(this)
+            }
+            foo()   //window
+            const obj = {
+                a: 10 + 'local',
+                b: foo,
+                c: this.a + 'abc',
+                d: () => this.a,
+                e: function() {return this.a}
+            }
+            obj.b()  //obj
+            console.log(obj.c)    // obj中的c属性，只是一个包含this的表达式，执行过程也不会创建当前执行上下文，this指向全局环境
+            console.log(obj.d())  //箭头函数例外，this指向是在定义时决定，而不是执行时
+            console.log(obj.e())  // 
+
+
+            
+
+
+
+        })() 
+    </script>
+</body>
+
+</html>

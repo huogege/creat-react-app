@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise</title>
+</head>
+<body>
+    <script>
+        /*let promise = new Promise((resolve, reject) => {
+            console.log(1)
+            setTimeout(()=> {
+                console.log(2)
+                if(true) {
+                    resolve('resolve --1')
+                }
+            })
+            console.log(3)
+        })
+        console.log(promise)
+        promise.then(function (res) {
+            console.log(this)
+            console.log(res)
+        }).then((res) => {
+            console.log(4)
+        }).then((res) => console.log(5))
+        */
+
+        //第一种只对同步代码有效
+        class MyPromise1{
+            constructor(excute) {
+                this.state = 'pending'
+                this.value = undefined
+                this.reason = undefined
+                
+                //立即执行的函数放在构造函数里面
+                let resolve = value => {
+                    if(this.state === 'pending') {
+                        this.state = 'fulfilled'
+                        this.value = value
+                    }
+                }
+                let reject = reason => {
+                    if(this.state === 'pending') {
+                        this.state = 'rejected'
+                        this.reason = reason
+                    }
+                }
+                try {
+                    excute(resolve, reject)
+                } catch (error) {
+                    reject(error)
+                }
+            }
+            then(onFulfilled, onRejected) {
+                if(this.state === 'fulfilled') {
+                    onFulfilled(this.value)
+                }
+                if(this.state === 'rejected') {
+                    onRejected(this.reason)
+                }
+            }
+        }
+        let p1 = new MyPromise1((resolve, reject) => {
+            resolve(1)   //同步代码可以执行
+            //setTimeout(() => resolve(1), 2000)  但是当resove在异步代码中，执行then的状态还是pending没有变成fulfilled，所以then的参数不会执行。
+        })
+        p1.then((res) => {
+            console.log(res)
+        })
+        p1.then((res) => {
+            console.log(res+1)
+        })
+        console.log(p1)
+
+        //第二种加入了处理异步队列的情况，当执行then的时候把成功和失败的回调存在各自的数组里面，当resolve和reject的时候再去执行
+        class MyPromise2{
+            constructor(excute) {
+                this.state = 'pending'
+                this.value = undefined
+                this.reason = undefined
+                this.onResolvedCallbacks = []
+                this.onRejectedCallbacks = []
+                //立即执行的函数放在构造函数里面
+                let resolve = value => {
+                    if(this.state === 'pending') {
+                        this.state = 'fulfilled'
+                        this.value = value
+                        this.onResolvedCallbacks.forEach(fn => fn())
+                    }
+                }
+                let reject = reason => {
+                    if(this.state === 'pending') {
+                        this.state = 'rejected'
+                        this.reason = reason
+                    }
+                }
+                try {
+                    excute(resolve, reject)
+                } catch (error) {
+                    reject(error)
+                }
+            }
+            then(onFulfilled, onRejected) {
+                if(this.state === 'fulfilled') {
+                    this.onResolvedCallbacks.push(onFulfilled)
+                }
+                if(this.state === 'rejected') {
+                    this.onRejectedCallbacks.push(onRejected)
+                }
+            }
+        }
+       let p2 = new Promise((resolve, reject) => {
+           setTimeout(()=> resolve('p2...value'))
+       })
+       p2.then((res) => console.log(res))
+    </script>
+</body>
+</html>
