@@ -55,7 +55,7 @@ class Vue{
     }
     // 为响应式对象 data 里的每一个 key 绑定一个观察者对象
     observe(data){ 
-        Object.keys(data).forEach(key => {
+        Object.keys(data).forEach(key => {   //这里形成observe的闭包，里面保存者data变量
             let obv = new Observer() 
             data["_"+key] = data[key]
             // 通过 getter setter 暴露 for 循环中作用域下的 obv，闭包产生

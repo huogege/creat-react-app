@@ -5,9 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="../utils/jquery.js"></script>
 </head>
 
 <body>
+    <button id="btn1">button</button>
+    <button id="btn2">button</button>
+    <button id="btn3">button</button>
+    <button id="btn4">button</button>
     <script>
         /*(() => {
             const foo = (function () {
@@ -119,20 +124,28 @@
 
 
         //必须包在一个函数中，如果访问变量在全局，则不会形成闭包
-        /*(() => {
-         var aaaa = 10
-         window.fn  = function(fn) {
-             fn()
-         }
-         for(var i =0;i<5;i++) {
-             fn(function() {
-                 console.log(aaaa)
-             })
-         }
+        /* (() => {
+             var aaaa = 10
+             window.fn = function (fn) {
+                 fn()
+             }
+             for (var i = 0; i < 5; i++) {
+                 fn(function () {
+                     console.log(aaaa)
+                 })
+             }
  
-        })()*/
+         })();*/
 
-
+        /* ;(() => {
+               {
+                   let a = 1
+                   function foo() {
+                       console.log(a)
+                   }
+                   foo()
+               }
+           })()*/
 
 
 
@@ -171,33 +184,94 @@
          console.log(add());*/
 
 
-        let arr1 = [1, 2]
-        let arr2 = ['a', 'b']
+        /*(function iamclousre(window, undefined) {
+            // 声明jQuery构造函数
+            var a = 1
+            var jQuery = function (name) {
+                // 主动在构造函数中，返回一个jQuery实例
+                console.log(a)
+                return new jQuery.fn.init(name);
+                //这里  iamclousre 是一个闭包对象，里面有a和jQuery，如果iamclousre是一个匿名函数，那么闭包就是a和jQuery
+            }
+            // 添加原型方法
+            jQuery.prototype = jQuery.fn = {
+                constructor: jQuery,
+                init: function () { },
+                css: function () { }
+            }
+            jQuery.fn.init.prototype = jQuery.fn;
+            // 将jQuery改名为$，并将引用保存在window上，形成闭包，对外开放jQuery构造函数，这样我们就可以访问所有挂载在jQuery原型上的方法了
+            window.jQuery = window.$ = jQuery;
+        })(window);
+        window.jQuery('#id')*/
 
-        function scriptArray(fn) {
-            let ActivityTargetInfoVo = [];
-            let arrs = Array.from(arguments);
-            var COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-            var code = fn.toString().replace(COMMENTS, '');
-            var result = code.slice(code.indexOf('(') + 1, code.indexOf(')')).match(/([^\s,]+)/g);
-            console.log(result)
-            console.log(arguments)
-            arrs.forEach((item, i) => {
-                console.log(arrs)
-                item.forEach((iitem, j) => {
-                    if (!ActivityTargetInfoVo[j]) {
-                        ActivityTargetInfoVo[j] = {}
-                    }
-                    if (i == 0) {
-                        ActivityTargetInfoVo[j].age = iitem
-                    } if (i == 1) {
-                        ActivityTargetInfoVo[j].name = iitem
-                    }
-                })
-            })
-            return ActivityTargetInfoVo
+
+
+
+        //作用域链,处在当前执行上下文中嵌套的函数，并且函数引用了执行上下文的变量，在执行的时候，就会形成闭包，在devtools可以看到，
+        //每一个形成的闭包对象，都处于当前执行上下文中的作用域链中。
+
+        let x0 = 0;
+        (function autorun1() {
+            let x1 = 1;
+
+            (function autorun2() {
+                let x2 = 2;
+
+                (function autorun3() {
+                    let x3 = 3;
+
+                    console.log(x0 + " " + x1 + " " + x2 + " " + x3);//0 1 2 3
+                })();
+            })();
+        })();
+
+
+
+        /**外部作用域执行完毕后
+         当外部作用域执行完毕后，内部函数还存活（仍在其他地方被引用）时，闭包才真正发挥其作用。譬如以下几种情况：
+ 
+         在异步任务例如 timer 定时器，事件处理，Ajax 请求中被作为回调
+         被外部函数作为返回结果返回，或者返回结果对象中引用该内部函数
+         **/
+
+
+
+        //闭包只存储外部变量的引用，而不会拷贝这些外部变量的值
+        function initEvents() {
+            for (var i = 1; i <= 3; i++) {
+                $("#btn" + i).click(function showNumber() {
+                    alert(i);//4
+                });
+            }
         }
-        console.log(scriptArray(arr1, arr2))
+        initEvents();
+
+        //闭包对象的变量如果不手动清除引用，则会一直占着内存。查看chrome memory工具可看到变化
+        let add = (function createAddClosure() {
+            let arr = [];
+            return function (obj) {
+                arr.push(obj);
+            }
+        })();
+        function addALotOfObjects() {
+            for (let i = 1; i <= 100000; i++) {
+                add({i});
+            }
+        }
+        function clearAllObjects() {
+            if (add) {
+
+                add = null;
+            }
+        }
+        //没点击之前 页面内存2.9m，点击之后4.9m，然后清除之后2.9m
+        $("#btn1").click(addALotOfObjects);  
+        $("#btn2").click(clearAllObjects);
+        
+
+
+
     </script>
 </body>
 

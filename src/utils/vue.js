@@ -884,7 +884,6 @@ Observer.prototype.walk = function walk (obj) {
   var keys = Object.keys(obj);
   for (var i = 0; i < keys.length; i++) {
     defineReactive$$1(obj, keys[i], obj[keys[i]]);
-    console.log(keys[i])
   }
 };
 
@@ -959,6 +958,7 @@ function defineReactive$$1 (
   shallow
 ) {
   var dep = new Dep();
+  console.log(dep)
   var property = Object.getOwnPropertyDescriptor(obj, key);
   if (property && property.configurable === false) {
     return
@@ -2881,9 +2881,6 @@ Watcher.prototype.get = function get () {
   var vm = this.vm;
   try {
     value = this.getter.call(vm, vm);
-    console.log(vm)
-    console.log(this.getter)
-    console.log(value)
   } catch (e) {
     if (this.user) {
       handleError(e, vm, ("getter for watcher \"" + (this.expression) + "\""));

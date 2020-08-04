@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let obj = {
+            a:1,
+            b:2
+        }
+        !function foo(obj) {
+            //引用数据类型传值的时候，传的只是这个变量对象在栈中放的一个引用值，指向的是堆中的数据
+            obj.a = 2
+            console.log(obj)   //这里会改变原数据
+
+            //
+            obj = {}  //这里将obj这个augments变量对象obj重新指向一个新的内存地址，里面保存了一个{}
+            obj.a = 3
+            console.log(obj)
+        }(obj)
+        console.log(obj)  //原本的obj已经被改变
+
+
+        let num1 = 1
+        function foo2(num){
+            console.log(num)
+            num = 2
+            console.log(num)
+            num = num + 10
+            return num
+        }
+        console.log(foo2(num1))
+        console.log(num1)
+
+
+    </script>
+</body>
+</html>

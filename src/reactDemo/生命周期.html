@@ -17,13 +17,30 @@
     </div>
     <script type="text/babel">
         class Welcome extends React.Component {
+            constructor(props){
+                super(props)
+                this.state = {
+                    name: ''
+                }
+            }
+            handleClick() {
+                this.setState({name: 'welcome'})
+            }
             render() {
+                const {name} = this.state;
                 return (
-                    <div>welcome</div>
+                    <div>
+                         {
+                             /**可以用箭头函数绑定this，这样就不用手动去bind this**/
+                         }
+                        <button onClick={() => this.handleClick()}>button-child</button>   
+                        <p>name:{name}</p>
+                    </div>
+                   
                 )
             }
             componentWillUpdate(nextProps, nextState) {
-                console.log(nextProps)
+                console.log(nextState)
             }
             
         }
