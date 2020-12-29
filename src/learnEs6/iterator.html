@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var it = makeIterator(['a', 'b']);
+
+        it.next() // { value: "a", done: false }
+        it.next() // { value: "b", done: false }
+        it.next() // { value: undefined, done: true }
+
+
+        //根据上面的用法，推测makeIterator函数的结构，首先传入一个array参数，
+        //返回的值可以使用属性表达式得到next，且next可以执行，
+        //说明返回一个对象，对象里面有个next属性，是一个函数，
+    
+        //模拟itrator
+        function makeIterator(array) {
+            var nextIndex = 0;
+            return {
+                next: function () {
+                    return nextIndex < array.length ?
+                        { value: array[nextIndex++], done: false } :
+                        { value: undefined, done: true };
+                }
+            };
+        }
+
+        /**原生具备 Iterator 接口的数据结构如下,可用for of遍历
+        Array
+        Map
+        Set
+        String
+        TypedArray
+        函数的 arguments 对象
+        NodeList 对象
+        **/
+
+        //使用原生遍历器接口
+
+        let array1 = [1,2,3]
+        let iter = array1[Symbol.iterator]()
+        console.log(iter.next())
+
+
+        let obj = {
+            [Symbol.iterator]: function() {
+                return {
+                    next: function() {
+                        return {
+                            value: 1
+                        }
+                    }
+                }
+            }
+        }
+        
+       
+    </script>
+</body>
+
+</html>

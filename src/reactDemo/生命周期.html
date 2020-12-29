@@ -42,7 +42,19 @@
             componentWillUpdate(nextProps, nextState) {
                 console.log(nextState)
             }
-            
+            scriptArray() {
+                let arrs = [1,2,3,4,5]
+                let arr = []
+               for(var i=0;i<arrs.length;i+=2){
+                    arr.push(arrs.slice(i,i+2))
+               }
+                   
+               
+                console.log(arr)
+            }
+            componentDidMount() {
+                this.scriptArray()
+            }
         }
 
         class App extends React.Component {

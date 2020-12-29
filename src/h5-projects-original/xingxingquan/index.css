@@ -1,0 +1,300 @@
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  background-color: #f7f7f7;
+}
+#app {
+  position: relative;
+  width: 10rem;
+  margin: 0 auto;
+}
+#app .content1 .imageBox {
+  position: relative;
+  width: 10rem;
+  height: 3.7333rem;
+  background-color: #ccc;
+  overflow: hidden;
+}
+#app .content1 .imageBox .imageList {
+  width: 30rem;
+  height: 3.7333rem;
+  position: absolute;
+}
+#app .content1 .imageBox .imageList img {
+  float: left;
+  width: 10rem;
+  height: 3.7333rem;
+}
+#app .content1 .acrticleList {
+  margin-top: 0.4rem;
+  margin-bottom: 2rem;
+}
+#app .content1 .acrticleList .list {
+  position: relative;
+  width: 9.2133rem;
+  height: 3.0933rem;
+  display: flex;
+  margin: 0 auto;
+  margin-bottom: 0.3467rem;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 0.2533rem;
+}
+#app .content1 .acrticleList .list .icon {
+  position: absolute;
+  top: 0.2rem;
+  right: 0;
+  width: 0.5067rem;
+  height: 0.76rem;
+  background-size: 0.5067rem 0.7733rem;
+}
+#app .content1 .acrticleList .list .new {
+  background-image: url('images/new.png');
+}
+#app .content1 .acrticleList .list .hot {
+  background-image: url('images/hot.png');
+}
+#app .content1 .acrticleList .list .left {
+  width: 2.6rem;
+  height: 2.6rem;
+  background-color: #ccc;
+}
+#app .content1 .acrticleList .list .right {
+  flex: 1;
+  padding-left: 0.35rem;
+  font-size: 14px;
+}
+#app .content1 .acrticleList .list .right p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#app .content1 .acrticleList .list .right .p1 {
+  line-height: 0.9rem;
+  width: 95%;
+  color: #282832;
+}
+#app .content1 .acrticleList .list .right .p2 {
+  color: #797979;
+}
+#app .content1 .acrticleList .list .right .p3 {
+  color: #797979;
+}
+#app .content1 .acrticleList .list .right .p4 {
+  color: #797979;
+}
+#app .content1 .acrticleList .activityOver {
+  background-image: url('images/over.png');
+  background-size: 2rem;
+  background-repeat: no-repeat;
+  background-position: 7rem 1rem;
+}
+#app .content1 .acrticleList .activityOver .right p {
+  color: #d5d5d5;
+}
+#app .content1 #acrticleList2 {
+  display: none;
+}
+#app .tabbar {
+  width: 10rem;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  background-color: #fff;
+}
+#app .tabbar .cell {
+  flex: 1;
+  height: 1.6rem;
+  text-align: center;
+  color: #808181;
+}
+#app .tabbar .cell img {
+  width: 0.4933rem;
+  height: 0.5333rem;
+  margin-top: 0.2rem;
+}
+#app .tabbar .cell .icon {
+  height: 100%;
+  background-size: 0.4933rem 0.5333rem;
+  background-repeat: no-repeat;
+  background-position: center 0.3rem;
+  line-height: 2.5rem;
+}
+#app .tabbar .cell .icon1 {
+  background-image: url('images/icon1.png');
+}
+#app .tabbar .cell .icon2 {
+  background-image: url('images/icon2.png');
+}
+#app .tabbar .cell .icon3 {
+  background-image: url('images/icon3.png');
+}
+#app .tabbar .activeCell {
+  color: #272636;
+}
+#app .tabbar .activeCell .icon1 {
+  background-image: url('images/icon1_active.png');
+}
+#app .tabbar .activeCell .icon2 {
+  background-image: url('images/icon2_active.png');
+}
+#app .tabbar .activeCell .icon3 {
+  background-image: url('images/icon3_active.png');
+}
+#app .content2 {
+  display: none;
+}
+#app .content2 .userInfo {
+  width: 10rem;
+  height: 5.6rem;
+  background-image: url('images/bmg.png');
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 10rem 4.3733rem;
+}
+#app .content2 .userInfo .avatar {
+  position: relative;
+  top: 1rem;
+  width: 2rem;
+  height: 2rem;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+#app .content2 .userInfo .avatar img {
+  width: 100%;
+  height: 100%;
+}
+#app .content2 .userInfo .name {
+  width: 100%;
+  margin-top: 1.4rem;
+  font-size: 18px;
+  text-align: center;
+}
+#app .content2 .userInfo .info {
+  width: 100%;
+  margin-top: 1rem;
+  display: flex;
+}
+#app .content2 .userInfo .info .cell {
+  flex: 1;
+}
+#app .content2 .userInfo .info .cell .key {
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+}
+#app .content2 .userInfo .info .cell .value {
+  width: 100%;
+  font-size: 24px;
+  color: #FFBA21;
+  text-align: center;
+}
+#app .content2 .userInfo .info .cell a {
+  position: relative;
+  top: 0.2rem;
+  font-size: 15px;
+  color: initial;
+  display: block;
+  width: 1.9rem;
+  left: 0.5rem;
+}
+#app .content2 .userInfo .linkContent1 {
+  margin-top: 0.2rem;
+}
+#app .content2 .userInfo .linkContent1 .list {
+  width: 9.2rem;
+  height: 1.6rem;
+  margin: 0 auto;
+  margin-top: 0.7rem;
+  line-height: 1.6rem;
+  font-size: 15px;
+  background-color: #fff;
+  border-radius: 10px;
+  background-image: url(images/right_arrow.png);
+  background-position: 8rem center;
+  background-repeat: no-repeat;
+  background-size: 0.2667rem 0.3867rem;
+  text-indent: 2em;
+}
+#app .content2 .userInfo .linkContent2 {
+  margin-top: 1rem;
+  display: flex;
+}
+#app .content2 .userInfo .linkContent2 .list {
+  flex: 1;
+  text-align: center;
+}
+#app .content2 .userInfo .linkContent2 .list img {
+  width: 4.4667rem;
+  height: 3.0667rem;
+}
+#app .box {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+#app .box .dialog {
+  border-radius: 5px;
+  text-align: center;
+  width: 7.5867rem;
+  height: 6.76rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  background-color: #fff;
+}
+#app .box .dialog .button {
+  width: 7.5867rem;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 15px;
+  background-color: #4E74D4;
+  color: #fff;
+  z-index: 2;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+#app .box .dialog .toast_content {
+  width: 7.5467rem;
+  height: 6rem;
+  margin: 0 auto;
+}
+#app .box .dialog .toast_content .title {
+  font-size: 15px;
+  color: #4E74D4;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+#app .box .dialog .toast_content .message p {
+  font-size: 15px;
+}
+#app .box .dialog .toast_content .message .sorryMsg {
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 2.2rem;
+}
+#app .box .dialog2 {
+  height: 8.6267rem;
+}
+#app .box .dialog2 .toast_content .message .list {
+  margin-top: 0.5rem;
+  padding: 0 0.5rem;
+}
+#app .box .dialog2 .toast_content .message .list p {
+  font-size: 12px;
+  text-align: left;
+  line-height: 0.55rem;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+       function Parent(name) {
+           this.name = name
+           this.sayHi = function() {
+               console.log('hi,' + this.name)
+           }
+       }
+       Parent.prototype.sayName = function() {
+           console.log(this.name)
+       }
+       var p1 = new Parent('z3')
+       p1.age = '24'
+       console.log(p1)
+       console.log(Parent.prototype)
+       p1.sayName()
+       console.log(typeof Parent)
+       console.log(typeof Parent.prototype)
+
+       //1  原型链继承
+       /**重点：让新实例的原型等于父类的实例。
+　　　　特点：1、实例可继承的属性有：实例的构造函数的属性，父类构造函数属性，父类原型的属性。（新实例不会继承父类实例的属性！）
+　　　　缺点：1、新实例无法向父类构造函数传参。
+　　　　　　　2、继承单一。
+　　　　　　　3、所有新实例都会共享父类实例的属性。（原型上的属性是共享的，一个实例修改了原型属性，另一个实例的原型属性也会被修改！）**/
+       function Child() {
+
+       }
+       Child.prototype = new Parent('c3')
+       var c1 = new Child('')
+       c1.sayName()
+       console.log(c1)
+
+       //2借用构造函数自执行
+       /** 
+        * 重点：用.call()和.apply()将父类构造函数引入子类函数（在子类函数中做了父类函数的自执行（复制））
+　　　　特点：1、只继承了父类构造函数的属性，没有继承父类原型的属性。
+　　　　　　　2、解决了原型链继承缺点1、2、3。
+　　　　　　　3、可以继承多个构造函数属性（call多个）。
+　　　　　　　4、在子实例中可向父实例传参。
+　　　　缺点：1、只能继承父类构造函数的属性。
+　　　　　　　2、无法实现构造函数的复用。（每次用每次都要重新调用）
+　　　　　　　3、每个新实例都有父类构造函数的副本，臃肿。**/
+       function Child2(name) {
+            Parent.call(this,name)
+       }
+       var c2 = new Child2('c2')
+       // c2.sayName()  //报错              
+       c2.sayHi()
+
+       //3 组合继承
+
+       function Child3(name,name2,age) {
+           Parent.call(this,name)
+           this.selfName = name2
+           this.age = age
+       }
+
+       Child3.prototype = new Parent()
+       Child3.prototype.selfSayName = function() {
+           console.log(this.age)
+       }
+       var c3 = new Child3('c3','c3_',11)
+       c3.sayName()
+       c3.selfSayName()
+
+       //4 原型shi继承，类似object.create()
+       /** 
+        * 　重点：用一个函数包装一个对象，然后返回这个函数的调用，这个函数就变成了个可以随意增添属性的实例或对象。object.create()就是这个原理。
+　　　　特点：类似于复制一个对象，用函数来包装。
+　　　　缺点：1、所有实例都会继承原型上的属性。
+　　　　　　　2、无法实现复用。（新实例属性都是后面添加的）
+        * **/
+       function createObject(parent,name) {
+           function fn() {}
+           if(typeof parent === 'object') {     //传入的是一个prototype对象
+            fn.prototype = parent;
+           } else {
+            fn.prototype = new parent(name);
+
+           }
+
+           return new fn()
+       }
+       var c4 = createObject(Parent,'c4')
+       c4.sayName()
+
+
+       //寄生组合式继承（常用）
+
+       //拿一个壳来过度
+
+       var con = createObject(Parent.prototype)  //继承父类原型对象，避免每次都new Parent
+
+       
+       function Child5(name) {
+            Parent.call(this,name)   // 继承parent构造函数属性
+       }
+       Child5.prototype = con
+        con.constructor = Child5    //弄清楚为什么要修复实例
+       var c5 = new Child5('c5')
+       console.log(con)
+       console.log(c5)
+    </script>
+</body>
+</html>

@@ -11,54 +11,16 @@
     <div class="button" style="width: 100px;height: 30px; background-color: #ccc;">button</div>
     <script>
 
-        (() => {
-            let button = document.getElementsByClassName('button')[0]
-            let alertMsg = '123'
-            button.addEventListener('click', () => alert(alertMsg))
-            button.removeEventListener('click', () => alert(alertMsg))
-            //document.body.removeChild(document.getElementsByClassName('button')[0]);
-            //
-
-            let scope = "global scope";
-
-            function checkscope() {
-                //这是一个自由变量
-                let scope = "local scope";
-                //这是一个闭包
-                function f() {
-                    console.log(scope);
-                };
-                return f;
-            };
-
-            let foo = checkscope();
-            foo();
-
-            {
-                let a = 1
-                var b = 1
-            }
-            console.log(a)
-
-            var a = [];
-            for (var i = 0; i < 10; i++) {
-                a[i] = function () {
-                    console.log(i);
-                };
-            }
-            a[6]();
-
-        })()
-
-        function add (x) {
-            return function(y) {
-                return x + y
-            }
+        let button = document.getElementsByClassName('button')[0]
+        function sayHello() {
+            console.log('hello')
         }
-        let add1 = add(1)
-        let add10 = add(10)
-        add = null
-        console.log(add1(2))
+        button.addEventListener('click',sayHello)
+        button.removeEventListener('click',sayHello)
+        
+        
+
+
     </script>
 </body>
 

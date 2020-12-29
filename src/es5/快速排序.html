@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var arr1 = [11, 0, 44, 3, 5, 66, 44]
+        var arr2 = [11, 0, 44, 3, 5, 66, 44]
+
+        //冒泡排序
+
+        function bubbleSort(arr) {
+            var len = arr.length;
+            for (var i = 0; i < len - 1; i++) {
+                for (var j = 0; j < len - i - 1; j++) {
+                    if (arr[j] > arr[j + 1]) {        // 相邻元素两两对比
+                        var temp = arr[j + 1];        // 元素交换
+                        arr[j + 1] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+            }
+            return arr
+        }
+        console.log(bubbleSort(arr1))
+
+
+
+        //快速排序
+
+        var quickSort = function (arr) {
+
+            if (arr.length <= 1) { return arr; }
+
+            var pivotIndex = Math.floor(arr.length / 2);
+
+            var pivot = arr.splice(pivotIndex, 1)[0];
+            console.log(pivotIndex)
+            console.log(pivot);
+            var left = [];
+
+            var right = [];
+
+            for (var i = 0; i < arr.length; i++) {
+
+                if (arr[i] < pivot) {
+
+                    left.push(arr[i]);
+
+                } else {
+
+                    right.push(arr[i]);
+
+                }
+
+            }
+            let quickSortLeft = quickSort(left);
+            let quickSortRight = quickSort(right);
+            console.log('递归次数');
+            console.log(pivot);
+            console.log(quickSortLeft)
+            console.log(quickSortRight);
+            return quickSortLeft.concat([pivot], quickSortRight);
+
+        };
+        quickSort(arr2)
+        console.log(arr2)
+    </script>
+</body>
+
+</html>

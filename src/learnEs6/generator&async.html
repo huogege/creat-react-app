@@ -6,35 +6,43 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script type="module" src="../utils/fetch.js"  ></script>
     <script  src="../utils/ajax.js" ></script>
+    <script src="../utils//jquery.js"></script>
     <title>Document</title>
 </head>
 <body>
     <script>
-        function* generatorHelloWorld() {
-            yield 'hello'
-            yield 'world'
-            return 'ending'
-            console.log(2)
-        }
-        const hw = generatorHelloWorld()
-        console.log(hw.next())
-        console.log(hw.next())
-        console.log(hw.next())
+    //     function* generatorHelloWorld() {
+    //         yield 'hello'
+    //         yield 'world'
+    //         return 'ending'
+    //         console.log(2)
+    //     }
+    //     const hw = generatorHelloWorld()
+    //     console.log(hw.next())
+    //     console.log(hw.next())
+    //     console.log(hw.next())
 
-        function* fetchData() {
-            const answer = yield getJSON('https://yesno.wtf/api')
-        }
-       console.log(fetchData().next().value.then(res => console.log(res)))
-        async function fetchData2() {
-            const answer =  fetch('https://yesno.wtf/api')
-            console.log(answer.then(res => console.log(res.json())))
-        }
-        fetchData2()
+    //     function* fetchData() {
+    //         const answer = yield getJSON('https://yesno.wtf/api')
+    //     }
+    //    console.log(fetchData().next().value.then(res => console.log(res)))
+    //     async function fetchData2() {
+    //         const answer =  fetch('https://yesno.wtf/api')
+    //         console.log(answer.then(res => console.log(res.json())))
+    //     }
+    //     fetchData2()
         async function fetchData3() {
+            console.log('staring')
             const answer = await getJSON('https://yesno.wtf/api')
+            const answer2 = await $.ajax('https://yesno.wtf/api')
+            const answer3 = await getJSON2('https://yesno.wtf/api',(res) => res)
+            console.log(answer3)    //await 后面是一个promise对象，才能得到值
+            console.log(answer2)
             console.log(answer)
+            console.log('done')
+            return answer2
         }
-        fetchData3()
+        fetchData3().then((res) => console.log(res))
     </script>
 </body> 
 </html>

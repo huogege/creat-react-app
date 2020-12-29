@@ -14,10 +14,22 @@
             sayname(params) {
                 console.log(this.name)
             }
+            bbb = 1
         }
+        Person.prototype.aaa = 10;
         let p1 = new Person('p1')
-        console.log(p1)
         for(let i in p1) {
+            console.log(i)  //name, bbb,aaa   会把原型链的属性一起遍历
+            if(p1.hasOwnProperty(i)) {
+                console.log(i + '     own')
+            }
+        }
+        console.log('------------')
+        // for(let i of p1) {
+        //     console.log(i)  //报错  for of  只能遍历具有iterator的接口的对象  比如数组 类数组  map set nodelist
+        // }
+        console.log(p1)
+        for(let i of p1[Symbol.iterator]) {
             console.log(i)
         }
     </script>

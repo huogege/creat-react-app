@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //1利用json的方法,不能复制函数，会丢失。
+
+        let array1 = [1,2,3,4]
+        let array2 = JSON.parse(JSON.stringify(array1));
+        array1[0] = 0
+        let str1 = JSON.stringify(array1)
+        console.log(array2)
+
+
+        //2 循环递归拷贝，创建新对象，赋值,第一版只做了第一层的深克隆，
+        function deepClone(source) {
+            const targetObj = Object.prototype.toString.call(source) === "[object Array]" ? [] : {};
+            for(let i in source) {
+                if(source.hasOwnProperty(i)) {
+                    targetObj[i] = source[i]
+                }
+            }
+            return targetObj
+        }
+
+        let array3 = [1,2,3,4,5]
+        let obj1 = {a:1,b:2}
+        let obj2 = {c:3,d:obj1}
+        
+        let obj3 = deepClone(obj2)
+
+        obj3.d.a = 'a'
+        console.log(obj1)   //浅克隆共享的指针，导致共享堆内存被一起修改
+        obj3.d.a = 1;
+        function deepClone2(source) {
+            const targetObj = Object.prototype.toString.call(source) === "[object Array]" ? [] : {};
+            for(let i in source) {
+                if(source.hasOwnProperty(i)) {
+                    if(source[i] && typeof(source[i]) == 'object') {
+                        //重新对引用数据类型的属性值，赋值
+                        targetObj[i] = Object.prototype.toString.call(source[i]) === "[object Array]" ? [] : {};
+                        targetObj[i] = deepClone2(source[i])
+                    } else {
+                        targetObj[i] = source[i]  //在赋值之前，先判断属性值是否还是一个引用数据类型，如果是则继续调用deepClone2，然后直到属性值变为基本数据类型，再执行赋值操作
+                    }
+                }
+            }
+            return targetObj
+        }
+
+        let obj4 = deepClone2(obj2)
+        obj4.d.a = 'a'
+        console.log(obj4)
+        console.log(obj1)
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class MyPromise {
+            constructor(excutor) {
+                this.state = 'pending'
+                this.value = undefined
+                this.reason = undefined
+
+                this.onResolvedCallbacks = []
+                this.onRejectedCallbacks = []
+
+
+
+                let resolve = (value) => {
+                    if(this.state == 'pending') {      //只有pending状态才会执行resolve
+                        this.state = 'fulfilled'
+                        this.value = value
+                        this.onResolvedCallbacks.forEach((fn) => {
+                            fn()
+                        })
+                    }
+                }
+                let reject = (reason)=>{
+                    if(this.state == 'pending') {
+                        this.state == 'rejected'
+                        this.reason = reason
+                    }
+                }
+                try{
+                    excutor(resolve, reject);  
+                } catch(error) {
+                    reject(error)
+                }
+                
+            }
+
+            //实现一个then,then不需要立即执行，所以挂在在原型对象上，包含两个参数 onFulfilled, onRejected,参数也是一个函数
+
+            then(onFulfilled, onRejected) {
+                if(this.state == 'pending') {
+                    this.onResolvedCallbacks.push(() => onFulfilled(this.value));
+                    this.onRejectedCallbacks.push(() => onRejected(this.reason));
+                }
+                if(this.state == 'fulfilled') {   //当状态成功的时候，把value回调出去
+                    onFulfilled(this.value)
+                } 
+
+                if(this.state == 'rejected') {
+                    onRejected(this.reason)
+                }
+            }
+        }
+        //函数作为参数，传入构造函数。但是函数内部的参数是从构造函数里面传出来的。
+        let p1 = new MyPromise((resolve,reject) => {
+            setTimeout(() => resolve(2), 3000)
+        })
+        p1.then(res => console.log(res))
+    </script>
+</body>
+</html>

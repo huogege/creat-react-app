@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+        //本着谁调用函数，函数内部的this就指向谁的原则
+        //第一版本
+        Function.prototype.call2 = function(context) {
+            //先获取调用call的函数，用this获取,加到传进来的obj属性上。
+            var fn = Symbol('fn');
+
+            context.fn = this;
+            //调用obj.fn,让this重新指向obj
+            //获取不定长的参数
+            var args = [];
+            for(var i = 1;i<arguments.length;i++) {
+                args.push('arguments[' + i + ']');  //这里用字符串方式arguments[1] arguments[1]存储参数，在函数里面直接就能用
+            }
+            //context.fn(...args);
+            console.log(args) 
+            eval('context.fn('+args+')')//不用结构
+            //删除fn
+            delete context.fn;
+
+        }
+        var doSth = function(name,age) {
+            console.log(name+age)
+            console.log(this.value)
+        }
+        var obj = {
+            value:1
+        }
+        doSth.call2(obj,'name','age')
+        var symbol1 = Symbol('symbol1');
+        obj.symbol1 = 2;
+        obj.symbol1 = 3;
+        console.log(obj)
+    </script>
+  </body>
+</html>

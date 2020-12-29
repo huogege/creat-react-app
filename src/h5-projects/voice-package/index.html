@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+    <title>语音包首页</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="../commonCss/reset.css">
+    <script src="../utils/flexible.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div id="login_button">点击登录</div>
+        <div class="content">
+           
+
+            <div class="list image1"></div>
+            <div class="list image2"></div>
+            <div class="list image3"></div>
+            <div class="list image4"></div>
+            <div class="list image5"></div>
+            <div class="footer">
+                <div class="cell icon_rule" id="rule_button"></div>
+                <div class="cell icon_package" id="package_button"></div>
+            </div>
+
+
+
+            <div class="box" id="box1">
+                <div class="dialog">
+                    <div class="close_button"></div>
+                    <div class="button">我已经了解</div>
+                    <div class="toast_content">
+                        <p class="title">温馨提示</p>
+                        <div class="message">
+                            <p>尊敬的用户，很抱歉！</p>
+                            <p> 您的积分不足，无法参与活动。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box" id="box2">
+                <div class="dialog">
+                    <div class="close_button"></div>
+                    <div class="button">确认</div>
+                    <div class="toast_content">
+                        <p class="title">温馨提示</p>
+                        <div class="message blueColor">
+                            <p>恭喜您成功兑换1个夏日礼包！</p>
+                            <p>礼包详情请在“我的礼包”中查看哦~</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box" id="box3">
+                <div class="dialog">
+                    <div class="close_button"></div>
+                    <div class="button">确认</div>
+                    <div class="toast_content">
+                        <p class="title">温馨提示</p>
+                        <div class="message">
+                            <p>你已成功兑换1个夏日礼包</p>
+                            <p>不可再次兑换！~</p>
+                            <p class="small_size">(活动期间每个用户仅可参与兑换1次夏日礼包哦)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box" id="box4">
+                <div class="dialog">
+                    <div class="close_button"></div>
+                    <div class="button">确认</div>
+                    <div class="toast_content">
+                        <p class="title">温馨提示</p>
+                        <div class="message">
+                            <p class="big_size">活动结束!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box" id="box5" style="display: block;">
+                <div class="exchangeWrapper">
+                    <div class="title">提示</div>
+                    <p class="useIntegral">  可用积分：100</p>
+                    <div class="label">手机号码</div>
+                    <div class="input">
+                        <input type="text" placeholder="请输入您的手机号码">
+                    </div>
+                    <div class="label">所需积分</div>
+                    <div class="input">
+                        <input >
+                    </div>
+                    <div class="button2">立即兑换</div>
+             
+                </div>
+            </div>
+            <div class="box" id="box6" >
+                <div class="exchangeWrapper">
+                    <div class="title">确认</div>
+                    <div class="label">手机号码</div>
+                    <div class="input">
+                        <input type="text" placeholder="请输入您的手机号码">
+                    </div>
+                    <div class="label">验证码</div>
+                    <div class="input">
+                        <input type="password" placeholder="请输入验证码">
+                    </div>
+                    <div class="button2">确认</div>
+                    <div class="codeButton">获取验证码</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../utils/fastclick.min.js"></script>
+    <script src="../utils/jquery.min.js"></script>
+    <script>
+        $(function () {
+            FastClick.attach(document.body);
+            $('#rule_button').on('click', function () {
+                location.href = './activity-rule.html';
+            });
+            $('#package_button').on('click', function () {
+
+                location.href = './my-package1.html';   //爱奇艺
+                //location.href='./my-package2.html';   //腾讯
+                //location.href='./my-package3.html';   //优酷
+
+
+                //location.href='./my-package4.html';   //鲜丰
+                //location.href='./my-package5.html';   //coco
+
+            });
+            $('#app .list').on('click', function () {
+
+                //$('#box1').show();   //积分不足弹框
+                //$('#box2').show();     //领取成功
+                //$('#box3').show();     //已领取
+                $('#box4').show();       //活动结束
+            });
+            var $box = $('.box');
+            $('.box .close_button').on('click', function () {
+                $box.hide();
+            });
+            $('.box .button').on('click', function () {
+                $box.hide();
+            });
+
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //1创建递归体，2跳出递归的条件
+
+        //求1，2..100的和
+
+        function sum(n) {
+            if(n == 1) return 1
+            console.log(n)
+            return sum(n-1) 
+            + n
+        }
+
+        console.log(sum(3))
+
+        // 执行sum(3),然后进入到sum（2），然后进入sum（1）的执行栈，return1，弹出sum（1），回到sum（2），执行+n操作。
+
+
+
+        //2求 第n项的斐波那契数列 （前两项的和是第三项的值）1，1，2，3，5，...n
+        function fib(n) {
+            if(n ==1 || n ==2) return 1
+            return fib(n-1) + fib(n-2)
+        }
+        fib(5)
+    </script>
+</body>
+</html>

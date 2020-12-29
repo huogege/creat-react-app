@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function ajaxCall(...rest) {
+            console.log(rest)
+        }
+        function callBack(e) {
+            console.log(e)
+        }
+        const getServerStuff = callback => ajaxCall(json => callback(json));   //没必要一个一个的包裹，直接赋值
+        const getServerStuff1 = ajaxCall;
+        console.log(getServerStuff)
+        getServerStuff()
+
+        ajaxCall(callBack)
+        ajaxCall(() => callBack(1))
+    </script>
+</body>
+</html>
