@@ -6,7 +6,26 @@ import Cityname from '../components/cityname'
 import List from '../components/list'
 import Toggle from '../components/toggle'
 import {getJSON, fn} from '../utils/ajax2'
-fn()
+import lodash from 'lodash'
+
+const curry = lodash.curry;
+console.log(curry)
+const myFilter = curry(function(f, array) {
+  console.log(array)
+  return array.filter(f)
+})
+
+const filter1 = myFilter(function(item) {
+  return typeof item == 'string'
+})
+console.log(filter1(['a','b','c',1]))
+
+
+
+
+
+
+
 const scroll_content = {
   height: '20rem',
   backgroundColor: '#ccc',
@@ -26,10 +45,8 @@ class Home2 extends React.Component {
   componentDidMount() {
     //从redux的state拿数据
     const { store } = this.context
-    console.log(store)
     getJSON('//localhost:8082/getJson').then(
       (res) => {
-        console.log(res)
 
       }
     )

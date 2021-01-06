@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html body {
+        margin: 0;
+        padding: 0;
+      }
+      /* 1.元素已知宽度 */
+      .box {
+        background-color: #ff8c00;
+        width: 300px;
+        height: 300px;
+        position: relative;
+      }
+      .content {
+        background-color: #f00;
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -50px 0 0 -50px;
+      }
+
+      /* 2.元素未知宽度 */
+      .box2 {
+        margin-top: 100px;
+        background-color: #ff8c00;
+        width: 300px;
+        height: 300px;
+        position: relative;
+      }
+      .content2 {
+        background-color: #f00;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .warpper2 {
+        width: 100px;
+        height: 100px;
+      }
+      .box3 {
+        width: 100px;
+        height: 100px;
+        transform: translate(50%, 0);
+        background-color: brown;
+      }
+      /* 3.子父都不知道宽高 */
+     
+      .warpper4{
+        width: 300px;
+        height: 100px;
+      }
+      .box4{
+          width: 300px;
+          height: 300px;
+          background-color: brown;
+          position: relative;
+      }
+      .content4{
+          position: absolute;
+          background-color: burlywood;
+          top: 50%;
+          transform: translateY(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="content"></div>
+    </div>
+
+    <div class="box2">
+      <div class="content2">
+        <div class="warpper2"></div>
+      </div>
+    </div>
+
+    <div class="box3"></div>
+
+    <div class="box4">
+        <div class="content4">
+          <div class="warpper4"></div>
+        </div>
+      </div>
+  </body>
+</html>

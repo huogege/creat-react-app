@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script crossorigin src="../utils/react.development.js"></script>
+    <script crossorigin src="../utils/react-dom.development.js"></script>
+    <script src="../utils/bable.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="app2"></div>
+    <div id="app3"></div>
+    <script type="text/babel">
+      const Titles = (
+        <ul>
+          <li>1</li>
+          <li>
+            <div className="myDiv">div</div>
+          </li>
+        </ul>
+      );
+      const appDom = document.getElementById("app");
+      const appDom2 = document.getElementById("app2");
+
+      function render(vnode, container) {
+        if (vnode == undefined || container == undefined) return;
+        if (typeof vnode == "string") {
+          //如果对象是一个字符串
+          const textNode = document.createTextNode(vnode);
+          return container.appendChild(textNode);
+        }
+
+        
+        //否则是一个虚拟对象
+        const {
+          type,
+          props: { children, className },
+        } = vnode;
+        console.log(vnode);
+        const dom = document.createElement(type);
+        if (typeof children == "string") {
+           dom.innerText = children
+        }
+        if(className) {
+            dom.setAttribute('class',className)
+        }
+        if (Array.isArray(children)) {
+          children.forEach((item) => {
+            render(item, dom);
+          });
+        }
+        if (Object.prototype.toString.call(children) == "[object Object]") {
+          render(children, dom);
+        }
+        container.appendChild(dom);
+      }
+      render("app-title", appDom);
+      render(Titles, appDom2);
+    </script>
+  </body>
+</html>

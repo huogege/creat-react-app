@@ -7,19 +7,33 @@
 </head>
 <body>
     <script>
-        function ajaxCall(...rest) {
-            console.log(rest)
-        }
-        function callBack(e) {
-            console.log(e)
-        }
-        const getServerStuff = callback => ajaxCall(json => callback(json));   //没必要一个一个的包裹，直接赋值
-        const getServerStuff1 = ajaxCall;
-        console.log(getServerStuff)
-        getServerStuff()
 
-        ajaxCall(callBack)
-        ajaxCall(() => callBack(1))
+    
+
+        //实现一个缓存函数
+
+        (() => {
+            function add(a,b) {
+                console.log('adding...')
+                return a+b
+            }
+            function memoize(f) {
+                let cache = {}  //利用闭包来缓存变量
+                return function() {
+                    let arg_str = JSON.stringify(arguments)    //获取每个参数的值
+                    cache[arg_str] = cache[arg_str] || f.apply(f,arguments)   //第一次执行f(),之后相同参数都缓存了
+                    console.log(cache)
+                    return cache[arg_str]
+                }
+            }
+            let addNumber = memoize(add);
+            console.log(addNumber(1,2))
+            console.log(addNumber(1,2))   //
+
+            
+        })()
+        
+
     </script>
 </body>
 </html>
