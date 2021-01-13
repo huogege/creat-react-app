@@ -5,9 +5,10 @@ import Clock from '../components/clock'
 import Cityname from '../components/cityname'
 import List from '../components/list'
 import Toggle from '../components/toggle'
-import {getJSON, fn} from '../utils/ajax2'
 import lodash from 'lodash'
 
+import './home.scss'
+import './home.less'
 const curry = lodash.curry;
 console.log(curry)
 const myFilter = curry(function(f, array) {
@@ -26,10 +27,7 @@ console.log(filter1(['a','b','c',1]))
 
 
 
-const scroll_content = {
-  height: '20rem',
-  backgroundColor: '#ccc',
-}
+
 const Home = () => (
   <div>
     <p>this is home page</p>
@@ -42,26 +40,11 @@ const Home = () => (
   </div>
 )
 class Home2 extends React.Component {
-  componentDidMount() {
-    //从redux的state拿数据
-    const { store } = this.context
-    getJSON('//localhost:8082/getJson').then(
-      (res) => {
 
-      }
-    )
-
-      const scroll_content = document.getElementsByClassName('scroll_content')[0]
-      scroll_content.addEventListener('scroll', () => {
-        alert(1)
-      }, false)
-
-
-  }
   render() {
     return (
       <div>
-        <div className="scroll_content" style={scroll_content}>
+        <div className='scroll_content'>
           <p>1</p>
           <p>1</p>
           <p>1</p><p>1</p>
