@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        "use strict";
+       function fn() {
+           console.log(this)
+       }
+       fn()
+        ;(() => {
+            //消息收集器
+            function Dep() {
+                this.subs = []
+            }
+            Dep.prototype = {
+                // addSub:(sub)=> {
+                //     console.log(this)               //此时箭头函数的this指向window，只能写function
+                //     this.subs.push(sub)
+                // },
+
+                // addSub: function (sub) {
+                //     console.log(this)
+                //     this.subs.push(sub)
+                // },
+
+                addSub: function (sub) {               //箭头函数的this可以继承上一次函数中的this，如果单独调用，永远指向window。
+                    console.log(this)
+                    const fn = () =>  this.subs.push(sub)
+                    fn()
+                },
+
+
+                notify() {
+                    this.subs.forEach(sub => sub.update())
+                }
+            }
+            //订阅者
+            function Watcher(fn) {
+                this.fn = fn
+            }
+            Watcher.prototype.update = function () {
+                this.fn()
+            }
+
+            let dep = new Dep()
+            let watch = new Watcher(() => console.log(1))
+            let watch2 = new Watcher(() => console.log(2))
+
+            dep.addSub(watch)
+            dep.addSub(watch2)
+            dep.notify()
+
+        })()
+    </script>
+</body>
+
+</html>
