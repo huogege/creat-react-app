@@ -45,3 +45,4 @@ const getJSON2 = function(url, cb) {
   }
 
 
+export {getJSON}

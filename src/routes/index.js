@@ -3,20 +3,16 @@ import { Route, Redirect } from 'react-router'
 import { HashRouter, Switch } from 'react-router-dom'
 
 import Home from './home'
-import About from './about'
-import Deractor from './deractor'
-import Counter from './Counter'
+import Page1 from './bind-this-ways'
+import MyTick from './currrent-tick'    //事件循环机制，16ms
 const Routes = () => (
   <HashRouter>
     <div>
       <Route exact path="/" render={() => <Redirect to="/home" />} />
       <Switch>
         <Route path="/home" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/deractor" component={Deractor} />
-        <Route path="/counter" component={Counter} />
-
-
+        <Route path="/bind-this-ways" component={Page1} />
+        <Route path="/currrent-tick" component={MyTick} />
 
       </Switch> 
     </div>
