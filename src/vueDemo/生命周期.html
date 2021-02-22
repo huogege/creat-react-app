@@ -1,80 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>vue生命周期学习</title>
     <script src="../utils/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app">
-        <button-counter></button-counter>
-        <input type="text" v-model='input'>
-        <input type="text" v-model='input2'>
-        <p>{{input}}</p>
-        <p>{{input2}}</p>
-        <p>{{count3}}</p>
+      <button-counter v-show="componentShow"></button-counter>
+      <input type="text" v-model="input" />
+      <input type="text" v-model="input2" />
+      <p>{{input}}</p>
+      <p>{{input2}}</p>
+      <p>{{count3}}</p>
+      <p v-for="i in arr">{{i}}</p>
+      <button @click="handleClick">button</button>
     </div>
-  
-</body>
-<script >
-    Vue.component('button-counter', {
-        data: function () {
-            return {
-                count: 0,
-                count1:1,
-                count2:1,
-            }
-        },
-        template: '<p>{{count1}}-----<button v-on:click="count++;count1++">You clicked me {{ count }} times.{{count2}}</button></p>',
+  </body>
+  <script>
+    const aryMethods = [
+      "push",
+      "pop",
+      "shift",
+      "unshift",
+      "splice",
+      "sort",
+      "reverse",
+    ];
+    const arrayAugmentations = [];
 
-        updated() {
-            console.log('button----updated')
-            console.log(this)
-        }
-    })
+    aryMethods.forEach((method) => {
+      // 这里是原生Array的原型方法
+      let original = Array.prototype[method];
+
+      // 将push, pop等封装好的方法定义在对象arrayAugmentations的属性上
+      // 注意：是属性而非原型属性
+      arrayAugmentations[method] = function () {
+        console.log("我被改变啦!");
+
+        // 调用对应的原生方法并返回结果
+        return original.apply(this, arguments);
+      };
+    });
+    const arr = [0, 1];
+    arr.__proto__ = arrayAugmentations;
+    Vue.component("button-counter", {
+      data: function () {
+        return {
+          count: 0,
+          count1: 1,
+          count2: 1,
+        };
+      },
+      template:
+        '<p>{{count1}}-----<button v-on:click="count++;count1++">You clicked me {{ count }} times.{{count2}}</button></p>',
+
+      updated() {
+        console.log("button----updated");
+        console.log(this);
+      },
+      destroyed: function () {
+        console.group("destroyed 销毁完成状态===============》");
+      },
+    });
+
     var vm = new Vue({
-        el: '#app',    //这里注释了vm生命周期到created结束，添加vm.$mount('#app')，则会继续执行
-        data: {
-           count3:3,
-           input:"hello world",
-           input2:"hello world2",
+      el: "#app", //这里注释了vm生命周期到created结束，添加vm.$mount('#app')，则会继续执行
+      data: {
+        count3: 3,
+        input: "hello world",
+        input2: "hello world2",
+        arr: [0, 1],
+        message: "message",
+        componentShow: false,
+      },
+      //template: "<h1>{{message +'这是在template中的'}}</h1>",
+      // render: function(createElement) {
+      //     return createElement('h1', 'this is createElement')
+      // },       //vue 渲染优先级  render > template > 外部html
+      // computed:{
+      //    input3:function(){
+      //        return this.input + this.input2
+      //    },
+      //    input4:function(){
+      //        return this.input + this.input2
+      //    }
+      // },
+      // watch: {
+      //     input5:function(){
+      //        return this.input + this.input2
+      //    }
+      // },
+      methods: {
+        onClick1() {
+          this.num2 = this.num2 + 1;
         },
-        //template: "<h1>{{message +'这是在template中的'}}</h1>",   
-        // render: function(createElement) {
-        //     return createElement('h1', 'this is createElement')
-        // },       //vue 渲染优先级  render > template > 外部html
-        // computed:{
-        //    input3:function(){
-        //        return this.input + this.input2
-        //    },
-        //    input4:function(){
-        //        return this.input + this.input2
-        //    }
-        // },
-        // watch: {
-        //     input5:function(){
-        //        return this.input + this.input2
-        //    }
-        // },
-        methods:{
-            onClick1() {
-                this.num2 = this.num2+1
-            }
+        handleClick() {
+          this.arr.pop();
+          this.componentShow = this.componentShow ? false : true;
+          //this.arr = [0];
         },
-        mounted() {
-            console.log(this)
+      },
+      mounted() {
+        console.log(this);
+      },
+      watch: {
+        input(newValue, oldValue) {
+          console.log(newValue);
         },
-        watch:{
-            input(newValue, oldValue) {
-                console.log(newValue)
-            }
-        }
-        /*beforeCreate: function () {
+      },
+      /*beforeCreate: function () {
             console.group('------beforeCreate创建前状态------');
             console.log("%c%s", "color:red", "el     : " + this.$el); //undefined
             console.log("%c%s", "color:red", "data   : " + this.$data); //undefined 
@@ -130,8 +169,6 @@
             console.log("%c%s", "color:red", "data   : " + this.$data);
             console.log("%c%s", "color:red", "message: " + this.message)
         }*/
-    })
-
-</script>
-
+    });
+  </script>
 </html>

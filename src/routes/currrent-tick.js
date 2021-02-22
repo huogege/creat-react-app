@@ -18,9 +18,9 @@ import resolve from 'resolve'
                 console.log(i)
             }
         }
-        Promise.resolve('resolved').then(v => console.log(v))
+        Promise.resolve('resolved').then(v => console.log(v))   //resolve会在某个tick中的最后时机执行
         setTimeout(() => console.log('setTimeout'))
-        requestAnimationFrame(() => console.log('渲染之前的时机'))
+        requestAnimationFrame(() => console.log('渲染之前的时机'))   //渲染之前的时机
      }
      return(<div>
          <div id="box" style={{

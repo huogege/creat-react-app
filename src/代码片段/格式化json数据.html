@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+      <pre id="box"></pre>
+    <script src="../utils/jquery.js"></script>
+    <script>
+        const theJson = '[{"carTrainColourInfoList":[{"colourName":"白色","trainColourId":2,"colourCode":"22222","sort":2,"params":{},"colourImg":"https://img.cs.leshangche.com/uni-stars-manager/2020/05/19/fd48e40bb81d4878984a69e24d039431.png"}],"salePrice":3,"thrPartCode":"33333.22222","colourCode":"22222","params":{},"downPrice":33,"twoPartCode":"33333","attrValue":"[{\"内饰颜色\":\"黑色\",\"trainValueId\":\"\"},{\"选装包\":\"音乐包\",\"trainValueId\":\"\"}]","goodsCode":"333333"}]'
+      function jsonShowFn(str) {
+        if (!str.match("^\{(.+:.+,*){1,}\}$")) {
+          return str; //判断是否是json数据，不是直接返回
+        }
+
+        if (typeof str != "string") {
+          str = JSON.stringify(str, undefined, 2);
+        }
+        str = str.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
+        return str.replace(
+          /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+          function (match) {
+            var cls = "number";
+            if (/^"/.test(match)) {
+              if (/:$/.test(match)) {
+                cls = "key";
+              } else {
+                cls = "string";
+              }
+            } else if (/true|false/.test(match)) {
+              cls = "boolean";
+            } else if (/null/.test(match)) {
+              cls = "null";
+            }
+            return '<span className="' + cls + '">' + match + "</span>";
+          }
+        );
+      }
+      $("#box").html(jsonShowFn(theJson))
+    </script>
+  </body>
+</html>

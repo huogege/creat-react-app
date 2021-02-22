@@ -16,8 +16,16 @@
 
     </div>
     <script type="text/babel">
-        
+        const arr = [1,2,3]    //即使子组件引用的数组改变，没有setstate，也不会更新
+        const Child = (props) => {
+            return (<div>
+                    <p>{props.num}</p>
+                    <button onClick={() => {
+                        arr.push(4)
 
+                    }}>button-child</button>
+                </div>)
+        }
 
         class App extends React.Component {
             constructor(props) {
@@ -48,6 +56,7 @@
                 return (
                     <div>
                         <button onClick={() => this.onclick()}>button{count}</button>
+                        <Child num={arr}/>
                     </div>
                 )
             }

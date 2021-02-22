@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let oldArrayPrototype = Array.prototype;
+      let proto = Object.create(oldArrayPrototype);
+      ["push", "shift", "unshift"].forEach((met) => {
+        proto[met] = function () {
+          // 函数劫持 （重写函数 继续调用旧方法）
+          console.log(met)
+          oldArrayPrototype[met].call(this, ...arguments);
+        };
+      });
+      console.log(proto)
+      let arr = [1,2,3]
+      arr.__proto__ = proto
+      arr.push(4)
+      console.log(arr.concat)
+    </script>
+  </body>
+</html>

@@ -18,7 +18,7 @@
 </html>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
-    let opt = {el:'#app', data:{name1:'检索中...', name2:'张三', age:30}}
+    let opt = {el:'#app', data:{name1:'检索中...', name2:'张三',name2:'张四', age:30}}
     let vm = new Vue(opt)
     setTimeout(() => {
         opt.data.name1 = '王永峰',
@@ -46,6 +46,7 @@ class Vue{
                     return data['_'+key]
                 }, 
                 set(newVal){
+                    console.log('seting')
                     obv.update(newVal)
                     data['_'+key] = newVal
                 }
@@ -57,12 +58,9 @@ class Vue{
         [].forEach.call(node.childNodes, child =>{
             if(!child.firstElementChild && /\{\{(.*)\}\}/.test(child.innerHTML)){
                 let key = RegExp.$1.trim()
-                console.log(key)
                 child.innerHTML = child.innerHTML.replace(new RegExp('\\{\\{\\s*'+ key +'\\s*\\}\\}', 'gm'),this.opt.data[key]) 
-                console.log(child)
-                console.log(JSON.stringify(child))
-                console.log(JSON.parse(JSON.stringify(child)))
-                Observer.target = JSON.parse(JSON.stringify(child))
+          
+                Observer.target = child;
                 this.opt.data[key] 
                 Observer.target = null
             }
@@ -75,14 +73,16 @@ class Vue{
 class Observer{
     constructor(...rest){
         this.subNode = [];    
-       
+
         this.index = rest[0];
     }
     addSubNode(node){
-        this.subNode.push(node)
+        this.subNode.push(node)   //订阅
     }
-    update(newVal){
+    update(newVal){    //发布
         this.subNode.forEach(node=>{
+            console.log(newVal)
+            console.log(node)
             node.innerHTML = newVal
         })
     }

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport"  content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
   <meta name="theme-color" content="#000000" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -12,54 +12,11 @@
     -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>React App</title>
-
-  <style>
-    /*移动端适配 width|height|font-size = 视觉稿量出来的值 / 100rem;*/
-    @media screen and (max-width:359px) and (min-width:320px) {
-
-      html,
-      body {
-        font-size: 50px !important;
-      }
-    }
-
-    @media screen and (max-width:374px) and (min-width:360px) {
-
-      html,
-      body {
-        font-size: 56.25px !important;
-      }
-    }
-
-    @media screen and (max-width:413px) and (min-width:375px) {
-
-      html,
-      body {
-        font-size: 58.5px !important;
-      }
-    }
-
-    @media screen and (max-width:639px) and (min-width:414px) {
-
-      html,
-      body {
-        font-size: 64.6px !important;
-      }
-    }
-
-    @media screen and (min-width:640px) {
-
-      html,
-      body {
-        font-size: 100px !important;
-      }
-    }
-  </style>
 </head>
 
 <body>
   <script>
-    /*; (function (designWidth, maxWidth) {
+     ;(function (designWidth, maxWidth) {   
       var doc = document,
         win = window,
         docEl = doc.documentElement,
@@ -104,7 +61,7 @@
           doc.body.style.fontSize = "16px";
         }, false);
       }
-    })(750, 750);*/
+    })(750, 750);
   </script>
   <div id="root"></div>
 </body>
