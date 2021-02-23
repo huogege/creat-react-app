@@ -1,64 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        .content {
-            border: 1px solid black;
-            width: 100%;
-            height: 500px;
-            overflow: scroll;
-        }
+      .content {
+        border: 1px solid black;
+        width: 100%;
+        height: 500px;
+        overflow: scroll;
+      }
 
-        .section {
-            width: 100%;
-            height: 5000px;
-            background-color: #fff;
-            opacity: .8;
-        }
+      .section {
+        width: 100%;
+        height: 5000px;
+        background-color: #fff;
+        opacity: 0.8;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <div class="content" >
-        <div class="section"></div>
+  <body>
+    <div class="content">
+      <div class="section"></div>
     </div>
     <script>
-        //防抖处理,避免在滑动的时候持续执行事件
-        
-        (function(){
+      //防抖处理,避免在滑动的时候持续执行事件
+
+      (function () {
+        let content = document.getElementsByClassName("content")[0];
+        // 防抖
+        function debounce(fn, wait) {
+          var timeout = null;
+          return function () {
+            if (timeout !== null) clearTimeout(timeout);      //防抖，是把之前的所以事件累计到最后一次，再延长一秒执行
+                                                              //这里          
+            timeout = setTimeout(fn, wait);
+            console.log(timeout)
+          };
+        }
+        // 处理函数
+        function handle() {
+          console.log(Math.random());
+        }
+       // content.addEventListener("scroll", debounce(handle, 1000));
+
+
+        //节流
+
+        const obj = {
+            name:'obj',
+            sayName(name) {
+                console.log(this.name)
+            }
+        }
+
+        function throttle(fn, wait) {
+            console.log(fn)
             let timer = null
-            let content = document.getElementsByClassName('content')[0]
-            let hadnleScroll = function (cb, time) {
-                clearTimeout(timer)
-                timer = setTimeout(() => {
-                    cb()
-                }, time)
-            }
-            function handleSome() {
-                //处理函数
-                console.log('1')
-            }
-            content.addEventListener('scroll', () => {hadnleScroll(handleSome, 2000)}, false)
-
-
-            //闭bao
-
-            function addNumber() {
-                let n = 0
-                return function () {
-                    console.log(n)
+            return function() {
+                let args = arguments;
+                let context = this;
+                if(!timer) {
+                    timer = setTimeout(function(){
+                        fn.apply(context,args)
+                        timer = null
+                    },wait)
                 }
-            }
+            } 
+        }
+        
+        content.addEventListener("scroll", throttle(obj.sayName, 1000));
 
-            let add1 = addNumber()
-            add1()    //0,   本来
-
-        })()
+      })();
     </script>
-</body>
-
+  </body>
 </html>
