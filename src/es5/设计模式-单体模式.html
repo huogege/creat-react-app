@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="box">
+      <button id="show">show</button>
+      <button id="close">close</button>
+    </div>
+    <script>
+      window.onload = () => {
+        /**
+         * 单体模式优点
+         * 1.划分单独的命名空间，不污染全局变量
+         * 2.增强代码一致性，阅读体验
+         * 3.可以实例话，且只有一次，性能更好
+         * */
+
+        let SingleMode = function (name) {
+          this.name = name;
+        };
+        SingleMode.prototype = {
+          constructor: SingleMode,
+          sayName() {
+            console.log(this.name);
+          },
+        };
+
+        let getInstance = (name) => {
+          if (!SingleMode.instance) {
+            SingleMode.instance = new SingleMode(name);
+          }
+          return SingleMode.instance;
+        };
+        let s1 = getInstance("s1");
+        s1.sayName();
+        let s2 = getInstance("s2");
+        console.log(s1 === s2); //true
+
+        /**
+         * 普通方式实现一个弹窗**/
+
+        const $box = document.getElementById("box");
+        const $show = document.getElementById("show");
+        const $close = document.getElementById("close");
+
+        //这种方式每次点击都会生成新的div，耗费性能，之后点击需要清除后面生成的div。所以之后生成一次div，并且用闭包把div保存下来
+        let createDiv = () => {
+          let div = document.createElement("div");
+          div.style.display = "none";
+          div.innerHTML = "hahaha";
+          div.id = "div";
+          $box.appendChild(div);
+          return div;
+        };
+
+        let createDiv2 =(function(){
+          let div;
+
+          return function () {
+            if (!div) {
+              div = document.createElement("div");
+              div.style.display = "none";
+              div.innerHTML = "hahaha";
+              div.id = "div";
+              $box.appendChild(div);
+            }
+
+            return div;
+          };
+        })()
+
+        $show.onclick = () => {
+          //let div = createDiv();
+          let div = createDiv2();
+
+          div.style.display = "block";
+        };
+        $close.onclick = () =>
+          (document.getElementById("div").style.display = "none");
+      };
+    </script>
+  </body>
+</html>
